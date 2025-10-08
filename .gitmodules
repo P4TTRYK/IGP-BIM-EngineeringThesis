@@ -1,3 +1,6 @@
 [submodule "That-open-company"]
 	path = That-open-company
 	url = https://github.com/P4TTRYK/That-open-company
+[submodule "xeokit"]
+	path = xeokit
+	url = https://github.com/fyrtax/xeokit
