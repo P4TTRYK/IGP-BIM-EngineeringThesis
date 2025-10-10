@@ -4,3 +4,6 @@
 [submodule "xeokit"]
 	path = xeokit
 	url = https://github.com/fyrtax/xeokit
+[submodule "undergraduate-thesis"]
+	path = undergraduate-thesis
+	url = https://github.com/fyrtax/undergraduate-thesis
