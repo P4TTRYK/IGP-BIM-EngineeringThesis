@@ -1,0 +1,89 @@
+.xeokit_canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+}
+
+.myNavCubeCanvas {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    bottom: 50px;
+    right: 10px;
+}
+
+.treeViewContainer {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 350px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-right: 10px;
+    border-radius: 12px;
+    max-height: calc(100% - 20px);
+    overflow-y: scroll;
+}
+
+.treeViewContainer ul {
+    list-style: none;
+}
+
+.treeViewContainer ul li {
+    position: relative;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.treeViewContainer ul li a {
+    background-color: #eee;
+    border-radius: 50%;
+    color: #000;
+    display: inline-block;
+    height: 1.5em;
+    left: -1.5em;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    width: 1.5em;
+    pointer-events: all;
+}
+
+.treeViewContainer ul li a.plus {
+    background-color: #ded;
+    pointer-events: all;
+}
+
+.treeViewContainer ul li a.minus {
+    background-color: #eee;
+    pointer-events: all;
+}
+
+.treeViewContainer ul li a:active {
+    top: 1px;
+    pointer-events: all;
+}
+
+.treeViewContainer ul li span:hover {
+    color: white;
+    cursor: pointer;
+    background: black;
+    padding-left: 2px;
+    pointer-events: all;
+}
+
+.treeViewContainer ul li span {
+    /*display: inline-block;*/
+    width: calc(100% - 50px);
+    padding-left: 2px;
+    pointer-events: all;
+    height: 23px;
+}
+
+.treeViewContainer .highlighted-node {
+    border: black solid 1px;
+    background: yellow;
+    color: black;
+    padding-left: 1px;
+    padding-right: 5px;
+    pointer-events: all;
+}
