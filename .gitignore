@@ -2,3 +2,4 @@
 /app/api/.idea
 *.pyc
 *.xkt
+*.db
