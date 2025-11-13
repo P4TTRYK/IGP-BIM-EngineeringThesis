@@ -1,11 +1,13 @@
 from flask import Flask, send_from_directory
 from markupsafe import escape
+from db import DB
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def index():
+    to_db = DB()
     return 'Index Page'
 
 
@@ -14,6 +16,7 @@ def get_xkt(p_guid):
     return send_from_directory(
         "./", p_guid, as_attachment=True
     )
+
 
 
 # @app.route('/post/<int:post_id>')
