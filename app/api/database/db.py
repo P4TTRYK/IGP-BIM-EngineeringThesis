@@ -9,4 +9,5 @@ class DB:
             sql_script = sql_file.read()
         self.cur.executescript(sql_script)
         con.commit()
+        print("Database initialized")
 
