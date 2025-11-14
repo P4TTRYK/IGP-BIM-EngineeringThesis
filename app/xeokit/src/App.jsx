@@ -1,8 +1,8 @@
-import {createBrowserRouter, RouterProvider} from "react-router";
+import {createHashRouter, RouterProvider} from "react-router";
 import {ProjectsList} from "./pages/ProjectsList.jsx";
 import {Project} from "./pages/Project.jsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
     {
         path: '/',
         // element: <RootLayout/>,
