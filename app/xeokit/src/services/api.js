@@ -8,7 +8,7 @@ export const api = createApi({
             query(project) {
                 return {
                     url: `/get_xkt/${project}`,
-                    responseHandler: (response) => response.blob(), // stupid
+                    responseHandler: (response) => response.arrayBuffer(),
                 };
             },
         }),

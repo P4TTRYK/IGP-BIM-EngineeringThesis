@@ -1,14 +1,16 @@
 import {useParams} from "react-router";
-import {Xeokit_v1} from "../Xeokit_v1.jsx";
+import {Xeokit} from "../Xeokit.jsx";
+import {useProjectModelQuery} from "../services/api.js";
 
 export const Project = () => {
     const {projectId} = useParams();
-
-    // TODO: check if project exists, or just overhaul this
+    const {data: model, isFetching, error} = useProjectModelQuery(projectId);
 
     return (
         <>
-            <Xeokit_v1 model={projectId}/>
+            {isFetching && <div>Loading model...</div>}
+            {error && <div>Error loading model: {error.status}</div>}
+            {!isFetching && !error && model && <Xeokit model={model}/>}
         </>
-    )
+    );
 }

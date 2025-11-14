@@ -7,7 +7,12 @@ export const store = configureStore({
         [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(api.middleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+                ignoredActions: ['api/executeQuery/fulfilled'],
+                ignoredPaths: ['api.queries'],
+            },
+        }).concat(api.middleware),
 })
 
 setupListeners(store.dispatch);
