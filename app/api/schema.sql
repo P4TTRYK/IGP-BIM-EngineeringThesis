@@ -1,6 +1,7 @@
 create table if not exists projects
 (
     id          integer primary key autoincrement,
+    guid        text not null,
     name        text not null,
     description text,
     created_at  datetime default current_timestamp,
@@ -10,10 +11,12 @@ create table if not exists projects
 create table if not exists survey
 (
     id         integer primary key autoincrement,
+    guid       text    not null,
     project_id integer not null,
     metadata   text,
     photos     text,
     updated_at datetime default current_timestamp,
+    unique (guid, project_id),
     foreign key (project_id) references projects (id) on delete cascade
 );
 
