@@ -4,9 +4,8 @@ import styles from "./Xeokit.module.css";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
-const file = "/assets/model.xkt";
 
-export function Xeokit_v1() {
+export function Xeokit_v1({model}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
@@ -39,7 +38,7 @@ export function Xeokit_v1() {
 
         xktLoader.load({
             id: "myModel",
-            src: file,
+            src: "http://localhost:5000/get_xkt/" + model,
             saoEnabled: true,
             edges: true,
             dtxEnabled: true,
