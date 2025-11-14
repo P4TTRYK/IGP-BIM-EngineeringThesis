@@ -1,11 +1,43 @@
-import {Xeokit_v1} from "./Xeokit_v1.jsx";
+import {createBrowserRouter, RouterProvider} from "react-router";
+import {ProjectsList} from "./pages/ProjectsList.jsx";
+import {Project} from "./pages/Project.jsx";
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        // element: <RootLayout/>,
+        children: [
+            {
+                index: true,
+                element: <ProjectsList/> // or sth different
+            },
+            {
+                path: 'project',
+                // element: <EventsRootLayout/>,
+                children: [
+                    {
+                        path: '',
+                        element: <ProjectsList/>,
+                    },
+                    {
+                        path: ':projectId',
+                        children: [
+                            {
+                                index: true,
+                                element: <Project/>
+                            },
+                            // {path: 'details', element: <ProjectDetails/>},
+                        ]
+                    },
+                ]
+            },
+        ],
+        errorElement: <ProjectsList/>
+    },
+]);
 
 function App() {
-    return (
-        <>
-            <Xeokit_v1/>
-        </>
-    )
+    return <RouterProvider router={router}/>
 }
 
 export default App

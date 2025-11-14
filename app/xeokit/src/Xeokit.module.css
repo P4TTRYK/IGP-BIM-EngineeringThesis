@@ -1,27 +1,27 @@
 .xeokit_canvas {
+    display: block;
     width: 100vw;
     height: 100vh;
-    display: block;
 }
 
 .myNavCubeCanvas {
     position: absolute;
+    right: 10px;
+    bottom: 50px;
     width: 250px;
     height: 250px;
-    bottom: 50px;
-    right: 10px;
 }
 
 .treeViewContainer {
     position: absolute;
     top: 10px;
     left: 10px;
+    overflow-y: scroll;
     width: 350px;
-    background-color: rgba(0, 0, 0, 0.7);
+    max-height: calc(100% - 20px);
     padding-right: 10px;
     border-radius: 12px;
-    max-height: calc(100% - 20px);
-    overflow-y: scroll;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .treeViewContainer ul {
@@ -35,27 +35,27 @@
 }
 
 .treeViewContainer ul li a {
-    background-color: #eee;
-    border-radius: 50%;
-    color: #000;
-    display: inline-block;
-    height: 1.5em;
-    left: -1.5em;
     position: absolute;
+    left: -1.5em;
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
     text-align: center;
     text-decoration: none;
-    width: 1.5em;
     pointer-events: all;
+    color: #000000;
+    border-radius: 50%;
+    background-color: #eeeeee;
 }
 
 .treeViewContainer ul li a.plus {
-    background-color: #ded;
     pointer-events: all;
+    background-color: #ddeedd;
 }
 
 .treeViewContainer ul li a.minus {
-    background-color: #eee;
     pointer-events: all;
+    background-color: #eeeeee;
 }
 
 .treeViewContainer ul li a:active {
@@ -64,26 +64,26 @@
 }
 
 .treeViewContainer ul li span:hover {
-    color: white;
-    cursor: pointer;
-    background: black;
     padding-left: 2px;
+    cursor: pointer;
     pointer-events: all;
+    color: white;
+    background: black;
 }
 
 .treeViewContainer ul li span {
     /*display: inline-block;*/
     width: calc(100% - 50px);
+    height: 23px;
     padding-left: 2px;
     pointer-events: all;
-    height: 23px;
 }
 
 .treeViewContainer .highlighted-node {
+    padding-right: 5px;
+    padding-left: 1px;
+    pointer-events: all;
+    color: black;
     border: black solid 1px;
     background: yellow;
-    color: black;
-    padding-left: 1px;
-    padding-right: 5px;
-    pointer-events: all;
 }
