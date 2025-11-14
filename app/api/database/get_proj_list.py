@@ -9,9 +9,8 @@ def get_projects_list(cursor):
             ORDER BY updated_at DESC
         """)
         
-        projects = [dict(row) for row in cursor.fetchall()]
-        
-        return projects
+        result = cursor.fetchall()
+        return result
     
     except sqlite3.Error as e:
         print(f"Błąd bazy danych: {e}")

@@ -2,7 +2,7 @@ import sqlite3
 
 class DB:
     def __init__(self):
-        con = sqlite3.connect("Thesis.db")
+        con = sqlite3.connect("Thesis.db",check_same_thread=False)
         self.cursor = con.cursor()
 
         with open('./schema.sql', 'r') as sql_file:
