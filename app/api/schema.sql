@@ -17,14 +17,14 @@ create table if not exists survey
     foreign key (project_id) references projects (id) on delete cascade
 );
 
-create trigger update_project_updated_at
+create trigger if not exists update_project_updated_at
     after update
     on projects
 begin
     update projects set updated_at = current_timestamp where id = old.id;
 end;
 
-create trigger update_survey_updated_at
+create trigger if not exists update_survey_updated_at
     after update
     on survey
 begin
