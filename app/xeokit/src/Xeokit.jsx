@@ -24,7 +24,10 @@ export function Xeokit({model}) {
         const navCube = new NavCubePlugin(viewer, {
             canvasId: "myNavCubeCanvas",
             cameraFlyDuration: 1,
-            synchProjection: true
+            synchProjection: true,
+            color: "#333333",
+            hoverColor: "rgba(0,0.5,0,0.4)",
+            textColor: "white",
         });
 
         new TreeViewPlugin(viewer, {
