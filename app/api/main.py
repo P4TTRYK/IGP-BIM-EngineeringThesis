@@ -48,11 +48,13 @@ def upload_ifc():
     return jsonify(result), 201
 
 
-@app.route('/get_xkt/<p_guid>')
-def get_xkt(p_guid):
-    # TODO: get files after checking in database, xkt only and from proper directory
+@app.route('/get_xkt/<project_id>')
+def get_xkt(project_id):
+    if not project_id.endswith('.xkt'):
+        return "Invalid file type", 400
+
     return send_from_directory(
-        "./",
-        p_guid,
+        "./uploads",
+        project_id,
         as_attachment=True
     )
