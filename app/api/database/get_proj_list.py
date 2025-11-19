@@ -1,5 +1,4 @@
 import sqlite3
-from typing import List
 
 def get_projects_list(cursor):
     try:
@@ -9,7 +8,9 @@ def get_projects_list(cursor):
             ORDER BY updated_at DESC
         """)
         
-        result = cursor.fetchall()
+        rows = cursor.fetchall()
+
+        result = [dict(row) for row in rows]
         return result
     
     except sqlite3.Error as e:
