@@ -1,8 +1,8 @@
-from flask import Flask, jsonify, send_from_directory, request
+from flask import Flask, jsonify, request
 import os
 
-from database import DB, get_projects_list
-from database.new_ifc import create_project_from_ifc
+from database import DB, get_projects_list , create_project_from_ifc
+
 
 app = Flask(__name__)
 thesis_db = DB()
