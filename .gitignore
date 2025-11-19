@@ -4,3 +4,6 @@
 *.xkt
 *.db
 /.idea
+app/api/Thesis.db-journal
+/app/api/uploads
+/app/api/bim
