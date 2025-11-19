@@ -67,6 +67,8 @@ export function Xeokit({model}) {
                 lastEntity.highlighted = false;
             }
 
+            const metaObject = viewer.metaScene.metaObjects[pickResult.entity.id];
+            console.log(metaObject.type);
             if (!lastEntity || pickResult.entity.id !== lastEntity.id) {
                 lastEntity = pickResult.entity;
                 pickResult.entity.highlighted = true;
