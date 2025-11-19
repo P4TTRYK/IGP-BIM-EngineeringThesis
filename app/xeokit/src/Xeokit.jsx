@@ -19,9 +19,7 @@ export function Xeokit({model}) {
             pbrEnabled: true,
         });
 
-        viewer.camera.eye = [-3.933, 2.855, 27.018];
-        viewer.camera.look = [4.400, 3.724, 8.899];
-        viewer.camera.up = [-0.018, 0.999, 0.039];
+        viewer.camera.eye = [-10,10,10];
 
         const navCube = new NavCubePlugin(viewer, {
             canvasId: "myNavCubeCanvas",
@@ -44,8 +42,14 @@ export function Xeokit({model}) {
             edges: true,
             dtxEnabled: true,
             pbrEnabled: true,
+            // objectDefaults: {
+            //     "IfcPlate": {
+            //         opacity: 0.3
+            //     },
+            // }
         });
 
+        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
         sceneModel.on("loaded", function () {
             viewer.cameraFlight.flyTo(sceneModel);
         });
