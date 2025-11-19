@@ -19,7 +19,7 @@ export function Xeokit({model}) {
             pbrEnabled: true,
         });
 
-        viewer.camera.eye = [-10,10,10];
+        viewer.camera.eye = [-10, 10, 10];
 
         const navCube = new NavCubePlugin(viewer, {
             canvasId: "myNavCubeCanvas",
@@ -54,6 +54,7 @@ export function Xeokit({model}) {
             viewer.cameraFlight.flyTo(sceneModel);
         });
 
+        // Elements picking
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/hover_entity.html
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/doubleClick_entity.html
         let lastEntity = null;
@@ -67,6 +68,12 @@ export function Xeokit({model}) {
                 lastEntity = pickResult.entity;
                 pickResult.entity.highlighted = true;
                 setPicked(pickResult.entity.id);
+
+                // Fly to selected object
+                viewer.cameraFlight.flyTo({
+                    aabb: pickResult.entity.aabb,
+                    duration: 0.5
+                });
             } else {
                 lastEntity = null;
             }
