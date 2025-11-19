@@ -37,13 +37,17 @@ export function Xeokit({model}) {
 
         const xktLoader = new XKTLoaderPlugin(viewer);
 
-        xktLoader.load({
+        const sceneModel = xktLoader.load({
             id: "myModel",
             xkt: model,
             saoEnabled: true,
             edges: true,
             dtxEnabled: true,
             pbrEnabled: true,
+        });
+
+        sceneModel.on("loaded", function () {
+            viewer.cameraFlight.flyTo(sceneModel);
         });
 
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/hover_entity.html
