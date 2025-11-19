@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
 import styles from "./Xeokit.module.css";
 
@@ -9,6 +9,7 @@ export function Xeokit({model}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
+    const [picked, setPicked] = useState(null);
 
     useEffect(() => {
         const viewer = new Viewer({
@@ -44,10 +45,33 @@ export function Xeokit({model}) {
             dtxEnabled: true,
             pbrEnabled: true,
         });
-    }, []);
+
+        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/hover_entity.html
+        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/doubleClick_entity.html
+        let lastEntity = null;
+
+        viewer.cameraControl.on("picked", (pickResult) => {
+            if (lastEntity) {
+                lastEntity.highlighted = false;
+            }
+
+            if (!lastEntity || pickResult.entity.id !== lastEntity.id) {
+                lastEntity = pickResult.entity;
+                pickResult.entity.highlighted = true;
+                setPicked(pickResult.entity.id);
+            } else {
+                lastEntity = null;
+            }
+        });
+    }, [model]);
 
     return (
         <>
+            <div
+                className={styles.elementInfo}
+            >
+                Picked Entity: {picked ? picked : "None"}
+            </div>
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}
