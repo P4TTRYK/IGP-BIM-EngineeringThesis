@@ -7,7 +7,7 @@ export const api = createApi({
         projectModel: build.query({
             query(project) {
                 return {
-                    url: `/get_xkt/${project}`,
+                    url: `/get_xkt/${project}.xkt`,
                     responseHandler: (response) => response.arrayBuffer(),
                 };
             },
