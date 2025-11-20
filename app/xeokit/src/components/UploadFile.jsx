@@ -1,11 +1,18 @@
 import {useEffect, useRef, useState} from "react";
 import styles from "./UploadFile.module.css";
 import {fileSizeFormat} from "../utils/fileSizeFormat.js";
+import {ProgressBar} from "./ProgressBar.jsx";
+import {Link} from "react-router";
 
+// TODO: make component more generic for photo upload.
 export const UploadFile = () => {
     const [file, setFile] = useState(null)
     const [dragStyle, setDragStyle] = useState(false);
     const dropZone = useRef(null)
+
+    const [uploadProgress, setUploadProgress] = useState(null);
+    const [uploadMessage, setUploadMessage] = useState(null);
+    const [uploadError, setUploadError] = useState(false);
 
     const handleFileDragover = (e) => {
         const fileItems = [...e.dataTransfer.items].filter(
@@ -44,15 +51,64 @@ export const UploadFile = () => {
     const handleUpload = () => {
         if (!file) return;
 
-        const fd = new FormData()
-        fd.append('file', file)
+        // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest_API
+        const formData = new FormData()
+        formData.append('file', file);
 
-        fetch('/api/upload', {
-            method: "POST",
-            body: fd
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
+        setUploadError(false);
+        setUploadProgress(0);
+
+        const xhr = new XMLHttpRequest();
+
+        xhr.open("POST", "http://127.0.0.1:5000/upload_ifc");
+
+        xhr.upload.addEventListener("progress", (e) => {
+            if (e.lengthComputable) {
+                const percentComplete = (e.loaded / e.total) * 100;
+                setUploadProgress(percentComplete);
+
+                if (percentComplete === 100) {
+                    setUploadMessage('Przetwarzanie...');
+                } else {
+                    setUploadMessage(`Wysyłanie... ${Math.round(percentComplete)}%`);
+                }
+            }
+        });
+
+        xhr.addEventListener("load", () => {
+            setUploadProgress(0);
+            if (xhr.status >= 200 && xhr.status < 300) {
+
+                setFile(null);
+
+                const {id: projectId = null, name: projectName = null} = JSON.parse(xhr.response);
+
+                setUploadMessage(
+                    <>
+                        Zakończono!
+                        {projectName && <><br/>Stworzono projekt <b>{projectName}</b></>}
+                        {projectId && <><br/><Link to={`/project/${projectId}`}>Przejdź do projektu</Link></>}
+                    </>
+                );
+            } else {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    setUploadMessage(response.status || 'Błąd');
+                    console.log(response.status);
+                } catch (error) {
+                    console.log(error);
+                }
+                setUploadError(true);
+            }
+        });
+
+        xhr.addEventListener('error', (e) => {
+            console.log(e);
+            setUploadProgress(null);
+            setUploadError(true);
+        });
+
+        xhr.send(formData);
     }
 
     // https://stackoverflow.com/questions/32896624/react-js-best-practice-regarding-listening-to-window-events-from-components
@@ -108,9 +164,16 @@ export const UploadFile = () => {
                 />
             </label>
 
+            {uploadProgress !== null &&
+                <>
+                    {uploadError ? <span className={styles['error-text']}>Błąd wysyłania pliku</span> : uploadMessage}
+                    <ProgressBar progress={uploadProgress} error={uploadError}/>
+                </>
+            }
+
             <button
                 onClick={handleUpload}
-                disabled={!file}
+                disabled={!file || uploadProgress > 0}
                 className={styles['upload-button']}
             >
                 Utwórz projekt{!file ? ` (najpierw dodaj plik)` : ''}
