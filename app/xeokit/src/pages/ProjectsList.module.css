@@ -1,0 +1,18 @@
+.projects-list-page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px 40px;
+    gap: 2em;
+}
+
+.project-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 2em;
+}
+
+.error-text {
+    color: var(--error-color);
+}
