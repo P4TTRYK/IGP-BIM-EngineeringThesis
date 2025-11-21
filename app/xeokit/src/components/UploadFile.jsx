@@ -11,7 +11,7 @@ export const UploadFile = () => {
     const dropZone = useRef(null)
 
     const [uploadProgress, setUploadProgress] = useState(null);
-    const [uploadMessage, setUploadMessage] = useState(null);
+    const [uploadMessage, setUploadMessage] = useState('...');
     const [uploadError, setUploadError] = useState(false);
 
     const handleFileDragover = (e) => {
@@ -81,9 +81,11 @@ export const UploadFile = () => {
 
                 setUploadMessage(
                     <>
-                        Zakończono!
-                        {projectName && <><br/>Stworzono projekt <b>{projectName}</b></>}
-                        {projectId && <><br/><Link to={`/project/${projectId}`}>Przejdź do projektu</Link></>}
+                        <span>
+                            Stworzono projekt
+                            {projectName && <b> {projectName}</b>}
+                        </span>
+                        {projectId && <Link to={`/project/${projectId}`}>Przejdź do projektu</Link>}
                     </>
                 );
             } else {
@@ -100,7 +102,7 @@ export const UploadFile = () => {
 
         xhr.addEventListener('error', (e) => {
             console.log(e);
-            setUploadProgress(null);
+            setUploadProgress(0);
             setUploadError(true);
         });
 
@@ -160,12 +162,8 @@ export const UploadFile = () => {
                 />
             </label>
 
-            {uploadProgress !== null &&
-                <>
-                    {uploadError ? <span className={styles['error-text']}>Błąd wysyłania pliku</span> : uploadMessage}
-                    <ProgressBar progress={uploadProgress} error={uploadError}/>
-                </>
-            }
+            {uploadError ? <span className={styles['error-text']}>Błąd wysyłania pliku</span> : uploadMessage}
+            <ProgressBar progress={uploadProgress} error={uploadError}/>
 
             <button
                 onClick={handleUpload}
