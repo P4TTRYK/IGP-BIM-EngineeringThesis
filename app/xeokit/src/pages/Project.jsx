@@ -1,5 +1,5 @@
 import {useParams} from "react-router";
-import {Xeokit} from "../Xeokit.jsx";
+import {Xeokit} from "../components/Xeokit.jsx";
 import {useProjectModelQuery} from "../services/api.js";
 
 export const Project = () => {

@@ -1,9 +1,24 @@
 :root {
-    font-family: sans-serif;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    --background-color: #180a1e;
+    --text-color: rgba(255, 255, 255, 0.87);
+    --link-color: #40aafd;
+    --subtle-color: #a664c8;
+    --light-background-color: #2e1d37;
+    --error-color: #ff5858;
 }
 
 body {
+    font-family: sans-serif;
     margin: 0 !important;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+a {
+    text-decoration: none;
+    color: #40aafd;
+}
+
+a:hover {
+    text-decoration: underline;
 }

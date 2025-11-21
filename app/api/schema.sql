@@ -32,4 +32,5 @@ create trigger if not exists update_survey_updated_at
     on survey
 begin
     update survey set updated_at = current_timestamp where id = old.id;
+    update projects set updated_at = current_timestamp where id = old.project_id;
 end;
