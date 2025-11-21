@@ -2,6 +2,7 @@ import {useState} from "react";
 import {Link} from "react-router";
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import styles from './Project_card.module.css';
+import {convertGMTToLocal, formatDateTime, textRelativeTime} from "../utils/timeManipulation.js";
 
 export const ProjectCard = ({project}) => {
     const [imgError, setImgError] = useState(false);
@@ -13,6 +14,9 @@ export const ProjectCard = ({project}) => {
         created_at = null,
         updated_at = null
     } = project;
+
+    const updatedAtLocal = convertGMTToLocal(updated_at);
+    const createdAtLocal = convertGMTToLocal(created_at);
 
     return (
         <Link
@@ -35,8 +39,8 @@ export const ProjectCard = ({project}) => {
                 {description}
             </p>
             <p className={styles.dates}>
-                Utworzono: {created_at}<br/>
-                Zmieniono: {updated_at}
+                <span data-title={formatDateTime(updatedAtLocal)}>Zmieniono: {textRelativeTime(updatedAtLocal)}</span><br/>
+                <span data-title={formatDateTime(createdAtLocal)}>Utworzono: {textRelativeTime(createdAtLocal)}</span>
             </p>
         </Link>
     );
