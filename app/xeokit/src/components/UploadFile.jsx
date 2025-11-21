@@ -19,8 +19,11 @@ export const UploadFile = () => {
             (item) => item.kind === "file",
         );
         if (fileItems.length > 0) {
+            console.log(fileItems);
             e.preventDefault();
-            if (fileItems.some((item) => item.type.startsWith("application/p21"))) {
+            if (fileItems.some((item) => item.type.startsWith("application/p21"))
+            || 1
+            ) {
                 e.dataTransfer.dropEffect = "copy";
                 setDragStyle(true);
             } else {
