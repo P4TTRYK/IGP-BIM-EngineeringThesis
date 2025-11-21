@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {Link} from "react-router";
-import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import styles from './Project_card.module.css';
 import {convertGMTToLocal, formatDateTime, textRelativeTime} from "../utils/timeManipulation.js";
+import {Icon} from "./Icon.jsx";
 
 export const ProjectCard = ({project, style = {}}) => {
     const [imgError, setImgError] = useState(false);
@@ -33,7 +33,7 @@ export const ProjectCard = ({project, style = {}}) => {
                     onError={() => setImgError(true)}
                     alt={`${name} thumbnail`}
                 />}
-                {imgError && <ImageNotSupportedIcon className={styles["no-thumbnail"]} aria-label="No thumbnail"/>}
+                {imgError && <Icon.no_image className={styles["no-thumbnail"]} aria-label="No thumbnail"/>}
             </div>
 
             <p className={styles.description}>
