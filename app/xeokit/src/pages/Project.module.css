@@ -32,6 +32,13 @@
     background-color: var(--text-color);
 }
 
+.back-button > svg {
+    height: 1em;
+    margin-left: -10px;
+    vertical-align: middle;
+    fill: var(--background-color);
+}
+
 .model-info {
     font-size: 0.8em;
     display: flex;

@@ -2,6 +2,7 @@ import {Link, useParams} from "react-router";
 import {Xeokit} from "../components/Xeokit.jsx";
 import {useProjectListQuery, useProjectModelQuery} from "../services/api.js";
 import styles from "./Project.module.css";
+import {Icon} from "../components/Icon.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -20,7 +21,7 @@ export const Project = () => {
         <div className={styles.projectContainer}>
             <nav className={styles['top-bar']}>
                 <Link to={"/"}>
-                    <button className={styles['back-button']}>&lt; Lista projektów</button>
+                    <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
                 <h3>Projekt: {projectInfo.name ?? '...'}</h3>
                 <div className={styles['model-info']}>
