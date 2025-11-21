@@ -10,7 +10,10 @@ export const Project = () => {
 
     let projectInfo = {};
     if (projectsList && projectsList.length > 0) {
-        projectInfo = projectsList.find(proj => proj.id.toString() === projectId);
+        const foundProject = projectsList.find(proj => proj.id.toString() === projectId);
+        if (foundProject) {
+            projectInfo = foundProject;
+        }
     }
 
     return (
