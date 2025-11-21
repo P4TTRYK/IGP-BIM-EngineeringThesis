@@ -1,28 +1,43 @@
-import { Link } from "react-router";
+import {useState} from "react";
+import {Link} from "react-router";
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import styles from './Project_card.module.css';
 
-//https://flowbite-react.com/docs/components/card
-export const ProjectCard = ({ project }) => {
+export const ProjectCard = ({project}) => {
+    const [imgError, setImgError] = useState(false);
+
+    const {
+        id,
+        name = null,
+        description = null,
+        created_at = null,
+        updated_at = null
+    } = project;
+
     return (
-        <div className={styles.card}>
-            <div className={styles.cardContent}>
-                <h2 className={styles.projectName}>{project.name}</h2>
+        <Link
+            to={`project/${id}`}
+            className={styles.card}
+        >
+            <h2 className={styles.name}>{name}</h2>
 
-                <p className={styles.projectDescription}>
-                    {project.description}
-                </p>
-                <p className={styles.projectDates}>
-                    {project.created_at} - {project.updated_at}
-                </p>
-
-                <div className={styles.cardFooter}>
-                    <Link to={`project/${project.id}`}>
-                        <button className={styles.projectButton}>
-                            Przejdź do projektu
-                        </button>
-                    </Link>
-                </div>
+            {/*https://stackoverflow.com/questions/7995080/html-if-image-is-not-found*/}
+            <div className={styles.thumbnail}>
+                {!imgError && <img
+                    src={`http://127.0.0.1:5000/projects/${id}/thumbnail`}
+                    onError={() => setImgError(true)}
+                    alt={`${name} thumbnail`}
+                />}
+                {imgError && <ImageNotSupportedIcon className={styles["no-thumbnail"]} aria-label="No thumbnail"/>}
             </div>
-        </div>
+
+            <p className={styles.description}>
+                {description}
+            </p>
+            <p className={styles.dates}>
+                Utworzono: {created_at}<br/>
+                Zmieniono: {updated_at}
+            </p>
+        </Link>
     );
 }
