@@ -7,6 +7,9 @@ export const ProjectsList = () => {
     const {data, isFetching, error} = useProjectListQuery();
     return (
         <div className={styles['projects-list-page']}>
+            <h2>Utwórz nowy projekt przesyłając plik IFC</h2>
+            <UploadFile/>
+
             <h1>Lista projektów</h1>
             <div className={styles['project-list']}>
                 {isFetching && <h3>Ładowanie projektów...</h3>}
@@ -23,9 +26,6 @@ export const ProjectsList = () => {
                         )
                 )}
             </div>
-
-            <h2>Utwórz nowy projekt przesyłając plik IFC</h2>
-            <UploadFile/>
         </div>
     )
 }
