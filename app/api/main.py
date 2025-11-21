@@ -15,7 +15,7 @@ def index():
     return 'Index Page'
 
 
-@app.route('/projects')
+@app.get('/projects')
 def get_projects():
     db = DB()
     projects, code = get_projects_list(db.cursor)
@@ -24,7 +24,7 @@ def get_projects():
     return jsonify(projects), code
 
 
-@app.route('/project/<project_id>/changes', methods=['GET'])
+@app.get('/project/<project_id>/changes')
 def get_project_changes(project_id):
     db = DB()
     projects, code = get_proj_changes(db.cursor, project_id)
@@ -33,7 +33,7 @@ def get_project_changes(project_id):
     return jsonify(projects), code
 
 
-@app.route('/upload_ifc', methods=['POST'])
+@app.post('/upload_ifc')
 def upload_ifc():
     if 'file' not in request.files:
         return "No file has been provided", 400
@@ -57,7 +57,7 @@ def upload_ifc():
     return jsonify(result), 201
 
 
-@app.route('/get_xkt/<project_id>')
+@app.get('/get_xkt/<project_id>')
 def get_xkt(project_id):
     if not project_id.endswith('.xkt'):
         return "Invalid file type", 400
