@@ -19,17 +19,9 @@ export const UploadFile = () => {
             (item) => item.kind === "file",
         );
         if (fileItems.length > 0) {
-            console.log(fileItems);
             e.preventDefault();
-            if (fileItems.some((item) => item.type.startsWith("application/p21"))
-            || 1
-            ) {
-                e.dataTransfer.dropEffect = "copy";
-                setDragStyle(true);
-            } else {
-                e.dataTransfer.dropEffect = "none";
-                setDragStyle(false);
-            }
+            e.dataTransfer.dropEffect = "copy";
+            setDragStyle(true);
         }
     }
 
@@ -42,7 +34,8 @@ export const UploadFile = () => {
         setDragStyle(false);
 
         const droppedFiles = [...e.dataTransfer.files];
-        if (droppedFiles.length > 0) {
+
+        if (droppedFiles.length > 0 && droppedFiles[0].name.match(/\.ifc$/i)) {
             setFile(droppedFiles[0]);
         }
     }
