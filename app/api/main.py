@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
-from database import DB, get_projects_list
+from database import DB, get_projects_list, get_proj_changes
 from ifc import import_ifc_project
 
 app = Flask(__name__)
@@ -19,6 +19,15 @@ def index():
 def get_projects():
     db = DB()
     projects, code = get_projects_list(db.cursor)
+    db.connection.close()
+
+    return jsonify(projects), code
+
+
+@app.route('/project/<project_id>/changes', methods=['GET'])
+def get_project_changes(project_id):
+    db = DB()
+    projects, code = get_proj_changes(db.cursor, project_id)
     db.connection.close()
 
     return jsonify(projects), code
