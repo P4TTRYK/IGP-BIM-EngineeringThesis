@@ -14,10 +14,11 @@ export const ProjectsList = () => {
                 {!isFetching && !error && (
                     (!data || data.length === 0)
                         ? <h3>Brak projektów</h3>
-                        : data.map(project =>
+                        : data.map((project, idx) =>
                             <ProjectCard
-                                key={project.id}
+                                key={idx}
                                 project={project}
+                                style={{animationDelay: `${idx * 50}ms`}}
                             />
                         )
                 )}

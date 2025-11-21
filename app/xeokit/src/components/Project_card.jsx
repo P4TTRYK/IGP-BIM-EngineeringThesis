@@ -4,7 +4,7 @@ import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 import styles from './Project_card.module.css';
 import {convertGMTToLocal, formatDateTime, textRelativeTime} from "../utils/timeManipulation.js";
 
-export const ProjectCard = ({project}) => {
+export const ProjectCard = ({project, style = {}}) => {
     const [imgError, setImgError] = useState(false);
 
     const {
@@ -22,6 +22,7 @@ export const ProjectCard = ({project}) => {
         <Link
             to={`project/${id}`}
             className={styles.card}
+            style={style}
         >
             <h2 className={styles.name}>{name}</h2>
 
@@ -39,8 +40,13 @@ export const ProjectCard = ({project}) => {
                 {description}
             </p>
             <p className={styles.dates}>
-                <span data-title={formatDateTime(updatedAtLocal)}>Zmieniono: {textRelativeTime(updatedAtLocal)}</span><br/>
-                <span data-title={formatDateTime(createdAtLocal)}>Utworzono: {textRelativeTime(createdAtLocal)}</span>
+                <span data-title={formatDateTime(updatedAtLocal)}>
+                    Zmieniono: {textRelativeTime(updatedAtLocal)}
+                </span>
+                <br/>
+                <span data-title={formatDateTime(createdAtLocal)}>
+                    Utworzono: {textRelativeTime(createdAtLocal)}
+                </span>
             </p>
         </Link>
     );
