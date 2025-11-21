@@ -1,8 +1,7 @@
 import { Link } from "react-router";
 import styles from './Project_card.module.css';
 
-// TODO: Podłącz prawdziwe dane z API
-
+//https://flowbite-react.com/docs/components/card
 export const ProjectCard = ({ project }) => {
     return (
         <div className={styles.card}>
@@ -11,6 +10,9 @@ export const ProjectCard = ({ project }) => {
 
                 <p className={styles.projectDescription}>
                     {project.description}
+                </p>
+                <p className={styles.projectDates}>
+                    {project.created_at} - {project.updated_at}
                 </p>
 
                 <div className={styles.cardFooter}>
