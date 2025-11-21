@@ -12,12 +12,12 @@ export const api = createApi({
                 };
             },
         }),
-        projectList : build.query({
-            query(){
+        projectList: build.query({
+            query() {
                 return {
                     url: '/projects',
-                }; 
-            } 
+                };
+            }
         }),
     }),
 });
