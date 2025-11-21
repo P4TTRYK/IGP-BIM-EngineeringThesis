@@ -68,11 +68,18 @@ export function Xeokit({model}) {
             }
 
             const metaObject = viewer.metaScene.metaObjects[pickResult.entity.id];
-            console.log(metaObject.type);
+            console.log(metaObject);
+
+            setPicked(<>
+                <b>ID:</b> {metaObject.id} <br/>
+                <b>Type:</b> {metaObject.type} <br/>
+                <b>Name:</b> {metaObject.name} <br/>
+                <b>Psets:</b> {metaObject.propertySets.length} <br/>
+            </>);
+
             if (!lastEntity || pickResult.entity.id !== lastEntity.id) {
                 lastEntity = pickResult.entity;
                 pickResult.entity.highlighted = true;
-                setPicked(pickResult.entity.id);
 
                 // Fly to selected object
                 viewer.cameraFlight.flyTo({
@@ -90,7 +97,7 @@ export function Xeokit({model}) {
             <div
                 className={styles.elementInfo}
             >
-                Picked Entity: {picked ? picked : "None"}
+                {picked ? picked : "..."}
             </div>
             <canvas
                 id="xeokit_canvas"
