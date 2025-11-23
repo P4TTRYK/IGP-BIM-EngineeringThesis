@@ -8,3 +8,4 @@ app/api/Thesis.db-journal
 /app/api/uploads
 /app/api/bim
 *.svg
+!app/xeokit/assets/icon.svg
