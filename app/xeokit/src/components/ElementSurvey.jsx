@@ -8,14 +8,15 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
         isFetching: isUpdatingSurveyData,
         error: errorUpdatingSurvey,
         isSuccess: isUpdatingSurveySuccess
-    }] = useUpdateSurveyMutation(surveyData.project);
+    }] = useUpdateSurveyMutation();
 
-    const elementSurveyData = surveyData?.find(survey => survey.guid === element.id);
-    const elementMetadata = elementSurveyData
-        ? JSON.parse(elementSurveyData.metadata)
-        : null;
+    const elementSurveyData = surveyData?.find((survey) => survey.guid === element.id);
+    const elementMetadata = elementSurveyData ? JSON.parse(elementSurveyData.metadata) : null;
 
-    const handleSubmit = async (form) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const form = new FormData(event.currentTarget);
+
         const metadata = JSON.stringify({
             kodyUszkodzen: form.get('uszkodzenia'),
             ocenaStanu: form.get('stan'),
@@ -29,16 +30,16 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
 
         onUpdateSurvey({
             guid: element.id,
-            metadata: metadata,
+            metadata,
             updated_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
         });
 
         await updateSurvey({project: element.project, formSurveyData: surveyFormData});
-    }
+    };
 
     return (
         <div className={styles.container}>
-            <form action={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <h3>Ocena stanu technicznego</h3>
                 <h4>Kody uszkodzeń</h4>
                 <textarea
