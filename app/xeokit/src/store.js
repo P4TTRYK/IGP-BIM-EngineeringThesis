@@ -9,7 +9,11 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {
-                ignoredActions: ['api/executeQuery/fulfilled'],
+                ignoredActions: [
+                    'api/executeQuery/fulfilled',
+                    'api/executeQuery/rejected',
+                    'api/executeQuery/pending',
+                ],
                 ignoredPaths: ['api.queries'],
             },
         }).concat(api.middleware),
