@@ -39,13 +39,6 @@
     fill: var(--background-color);
 }
 
-.model-info {
-    font-size: 0.8em;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-}
-
 .xeokit-container {
     display: flex;
     align-items: center;

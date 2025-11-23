@@ -23,11 +23,7 @@ export const Project = () => {
                 <Link to={"/"}>
                     <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
-                <h3>Projekt: {projectInfo.name ?? '...'}</h3>
-                <div className={styles['model-info']}>
-                    <span>{projectInfo.guid ?? '...'}</span>
-                    <span>{projectInfo.description ?? ''}</span>
-                </div>
+                <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
             </nav>
 
             <div className={styles['xeokit-container']}>
