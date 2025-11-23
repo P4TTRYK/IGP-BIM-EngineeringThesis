@@ -13,30 +13,31 @@ export function Xeokit({model, survey, project}) {
     const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
+    useEffect(() => {
+        setSurveyData(survey || []);
+    }, [survey]);
+
     const handlePick = (metaObject) => {
         if (!metaObject) {
             setPicked(null);
             return;
         }
-
-        console.log(metaObject);
-
-        const elementInfo = {
-            project: project,
+        setPicked({
+            project,
             id: metaObject.id,
             type: metaObject.type,
             name: metaObject.name,
             psets: metaObject.propertySets
-        };
-        setPicked(elementInfo);
+        });
     };
 
     const handleUpdateSurvey = (newSurvey) => {
-        const updatedSurvey = survey.filter(s => s.guid !== newSurvey.guid);
-        updatedSurvey.push(newSurvey);
-
-        setSurveyData(updatedSurvey);
-    }
+        setSurveyData((prev) => {
+            const next = prev.filter((s) => s.guid !== newSurvey.guid);
+            next.push(newSurvey);
+            return next;
+        });
+    };
 
     useEffect(() => {
         if (!model || !canvasRef.current || !navCubeRef.current || !treeViewRef.current) {
@@ -49,7 +50,6 @@ export function Xeokit({model, survey, project}) {
             dtxEnabled: true,
             pbrEnabled: true,
         });
-
         viewer.camera.eye = [-10, 10, 10];
 
         const navCube = new NavCubePlugin(viewer, {
@@ -70,7 +70,7 @@ export function Xeokit({model, survey, project}) {
         const xktLoader = new XKTLoaderPlugin(viewer);
 
         const sceneModel = xktLoader.load({
-            id: "myModel",
+            id: `model-${project}`,
             xkt: model,
             saoEnabled: true,
             edges: true,
@@ -84,7 +84,7 @@ export function Xeokit({model, survey, project}) {
         });
 
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
-        sceneModel.on("loaded", function () {
+        sceneModel.on("loaded", () => {
             viewer.cameraFlight.flyTo(sceneModel);
         });
 
@@ -92,10 +92,15 @@ export function Xeokit({model, survey, project}) {
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/hover_entity.html
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/picking/doubleClick_entity.html
         let lastEntity = null;
-
-        viewer.cameraControl.on("picked", (pickResult) => {
+        const handlePicked = (pickResult) => {
             if (lastEntity) {
                 lastEntity.highlighted = false;
+            }
+
+            if (!pickResult || !pickResult.entity) {
+                lastEntity = null;
+                handlePick(null);
+                return;
             }
 
             if (!lastEntity || pickResult.entity.id !== lastEntity.id) {
@@ -130,9 +135,7 @@ export function Xeokit({model, survey, project}) {
 
     return (
         <>
-            <div
-                className={styles.elementInfo}
-            >
+            <div className={styles.elementInfo}>
                 {picked ? <>{picked.name} ({picked.type})</> : "..."}
             </div>
             {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
