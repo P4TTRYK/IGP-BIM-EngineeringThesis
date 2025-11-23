@@ -39,8 +39,12 @@ export function Xeokit({model, survey, project}) {
     }
 
     useEffect(() => {
+        if (!model || !canvasRef.current || !navCubeRef.current || !treeViewRef.current) {
+            return;
+        }
+
         const viewer = new Viewer({
-            canvasId: "xeokit_canvas",
+            canvasElement: canvasRef.current,
             transparent: true,
             dtxEnabled: true,
             pbrEnabled: true,
@@ -49,7 +53,7 @@ export function Xeokit({model, survey, project}) {
         viewer.camera.eye = [-10, 10, 10];
 
         const navCube = new NavCubePlugin(viewer, {
-            canvasId: "myNavCubeCanvas",
+            canvasElement: navCubeRef.current,
             cameraFlyDuration: 1,
             synchProjection: true,
             color: "#333333",
@@ -57,7 +61,7 @@ export function Xeokit({model, survey, project}) {
             textColor: "white",
         });
 
-        new TreeViewPlugin(viewer, {
+        const treeView = new TreeViewPlugin(viewer, {
             containerElement: treeViewRef.current,
             hierarchy: "types",
             autoExpandDepth: 1
@@ -110,8 +114,19 @@ export function Xeokit({model, survey, project}) {
                 lastEntity = null;
                 handlePick(null);
             }
-        });
-    }, [model]);
+        };
+
+        viewer.cameraControl.on("picked", handlePicked);
+
+        return () => {
+            viewer.cameraControl.off("picked", handlePicked);
+            viewer.scene.clear();
+            viewer.destroy();
+            navCube.destroy();
+            treeView.destroy?.();
+            setPicked(null);
+        };
+    }, [model, project]);
 
     return (
         <>
