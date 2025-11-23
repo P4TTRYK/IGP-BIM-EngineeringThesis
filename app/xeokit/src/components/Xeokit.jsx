@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from "react";
 import {NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
 import styles from "./Xeokit.module.css";
+import {ElementSurvey} from "./ElementSurvey.jsx";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
@@ -10,6 +11,24 @@ export function Xeokit({model, survey, project}) {
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
     const [picked, setPicked] = useState(null);
+
+    const handlePick = (metaObject) => {
+        if (!metaObject) {
+            setPicked(null);
+            return;
+        }
+
+        console.log(metaObject);
+
+        const elementInfo = {
+            project: project,
+            id: metaObject.id,
+            type: metaObject.type,
+            name: metaObject.name,
+            psets: metaObject.propertySets
+        };
+        setPicked(elementInfo);
+    };
 
     useEffect(() => {
         const viewer = new Viewer({
@@ -67,16 +86,6 @@ export function Xeokit({model, survey, project}) {
                 lastEntity.highlighted = false;
             }
 
-            const metaObject = viewer.metaScene.metaObjects[pickResult.entity.id];
-            console.log(metaObject);
-
-            setPicked(<>
-                <b>ID:</b> {metaObject.id} <br/>
-                <b>Type:</b> {metaObject.type} <br/>
-                <b>Name:</b> {metaObject.name} <br/>
-                <b>Psets:</b> {metaObject.propertySets.length} <br/>
-            </>);
-
             if (!lastEntity || pickResult.entity.id !== lastEntity.id) {
                 lastEntity = pickResult.entity;
                 pickResult.entity.highlighted = true;
@@ -86,8 +95,12 @@ export function Xeokit({model, survey, project}) {
                     aabb: pickResult.entity.aabb,
                     duration: 0.5
                 });
+
+                const metaObject = viewer.metaScene.metaObjects[pickResult.entity.id];
+                handlePick(metaObject);
             } else {
                 lastEntity = null;
+                handlePick(null);
             }
         });
     }, [model]);
@@ -97,8 +110,9 @@ export function Xeokit({model, survey, project}) {
             <div
                 className={styles.elementInfo}
             >
-                {picked ? picked : "..."}
+                {picked ? <>{picked.name} ({picked.type})</> : "..."}
             </div>
+            {picked && <ElementSurvey element={picked} surveyData={survey}/>}
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}
@@ -107,7 +121,7 @@ export function Xeokit({model, survey, project}) {
             <canvas
                 id="myNavCubeCanvas"
                 ref={navCubeRef}
-                className={styles.myNavCubeCanvas}
+                className={`${styles.myNavCubeCanvas} ${picked ? styles['picked-element'] : ''}`}
             />
             <div
                 id="treeViewContainer"
