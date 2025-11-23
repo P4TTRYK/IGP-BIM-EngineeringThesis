@@ -11,6 +11,7 @@ export function Xeokit({model, survey, project}) {
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
     const [picked, setPicked] = useState(null);
+    const [surveyData, setSurveyData] = useState(survey || []);
 
     const handlePick = (metaObject) => {
         if (!metaObject) {
@@ -29,6 +30,13 @@ export function Xeokit({model, survey, project}) {
         };
         setPicked(elementInfo);
     };
+
+    const handleUpdateSurvey = (newSurvey) => {
+        const updatedSurvey = survey.filter(s => s.guid !== newSurvey.guid);
+        updatedSurvey.push(newSurvey);
+
+        setSurveyData(updatedSurvey);
+    }
 
     useEffect(() => {
         const viewer = new Viewer({
@@ -112,7 +120,7 @@ export function Xeokit({model, survey, project}) {
             >
                 {picked ? <>{picked.name} ({picked.type})</> : "..."}
             </div>
-            {picked && <ElementSurvey element={picked} surveyData={survey}/>}
+            {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}

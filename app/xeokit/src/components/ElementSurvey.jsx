@@ -1,15 +1,39 @@
 import React from 'react';
 import styles from './ElementSurvey.module.css';
 import {UploadFile} from "./UploadFile.jsx";
+import {useUpdateSurveyMutation} from "../services/api.js";
 
-export const ElementSurvey = ({element, surveyData}) => {
-    console.log(element);
-    console.log(surveyData);
+export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
+    const [updateSurvey, {
+        isFetching: isUpdatingSurveyData,
+        error: errorUpdatingSurvey,
+        isSuccess: isUpdatingSurveySuccess
+    }] = useUpdateSurveyMutation(surveyData.project);
 
-    const handleSubmit = (formData) => {
-        console.log(formData);
-        // upload data to server
-        // update surveyData to reflect changes
+    const elementSurveyData = surveyData?.find(survey => survey.guid === element.id);
+    const elementMetadata = elementSurveyData
+        ? JSON.parse(elementSurveyData.metadata)
+        : null;
+
+    const handleSubmit = async (form) => {
+        const metadata = JSON.stringify({
+            kodyUszkodzen: form.get('uszkodzenia'),
+            ocenaStanu: form.get('stan'),
+            czyEkspertyza: form.get('czyEksptertyza'),
+            trybEkspertyza: form.get('trybEkspertyza')
+        });
+
+        const surveyFormData = new FormData();
+        surveyFormData.append('guid', element.id);
+        surveyFormData.append('metadata', metadata);
+
+        onUpdateSurvey({
+            guid: element.id,
+            metadata: metadata,
+            updated_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        });
+
+        await updateSurvey({project: element.project, formSurveyData: surveyFormData});
     }
 
     return (
@@ -17,15 +41,24 @@ export const ElementSurvey = ({element, surveyData}) => {
             <form action={handleSubmit}>
                 <h3>Ocena stanu technicznego</h3>
                 <h4>Kody uszkodzeń</h4>
-                <textarea name="uszkodzenia" className={styles.uszkodzenia}
-                          defaultValue={surveyData?.kodyUszkodzen || ''}/>
+                <textarea
+                    name="uszkodzenia"
+                    className={styles.uszkodzenia}
+                    defaultValue={elementMetadata?.kodyUszkodzen || ''}
+                />
 
                 <h4>Ocena stanu</h4>
                 <div className={styles.selector}>
                     {
                         ['0', '1', '2', '3', '4', '5'].map((val, idx) =>
                             <React.Fragment key={idx}>
-                                <input type="radio" name="stan" value={val} id={`stan-${idx}`}/>
+                                <input
+                                    type="radio"
+                                    name="stan"
+                                    value={val}
+                                    id={`stan-${idx}`}
+                                    defaultChecked={elementMetadata?.ocenaStanu === val}
+                                />
                                 <label htmlFor={`stan-${idx}`}> {val} </label>
                             </React.Fragment>
                         )
@@ -34,10 +67,22 @@ export const ElementSurvey = ({element, surveyData}) => {
 
                 <h4>Potrzeba wykonania ekspertyzy</h4>
                 <div className={styles.selector}>
-                    <input type="radio" name="czyEksptertyza" value="NIE" id={`czyEksptertyza-tak`}/>
+                    <input
+                        type="radio"
+                        name="czyEksptertyza"
+                        value="TAK"
+                        id={`czyEksptertyza-tak`}
+                        defaultChecked={elementMetadata?.czyEkspertyza === 'TAK'}
+                    />
                     <label htmlFor={`czyEksptertyza-tak`}> Tak </label>
 
-                    <input type="radio" name="czyEksptertyza" value="TAK" id={`czyEksptertyza-nie`}/>
+                    <input
+                        type="radio"
+                        name="czyEksptertyza"
+                        value="NIE"
+                        id={`czyEksptertyza-nie`}
+                        defaultChecked={elementMetadata?.czyEkspertyza === 'NIE'}
+                    />
                     <label htmlFor={`czyEksptertyza-nie`}> Nie </label>
                 </div>
 
@@ -46,7 +91,13 @@ export const ElementSurvey = ({element, surveyData}) => {
                     {
                         ['A', '1', '2', '3'].map((val, idx) =>
                             <React.Fragment key={idx}>
-                                <input type="radio" name="trybEkspertyza" value={val} id={`trybEkspertyza-${idx}`}/>
+                                <input
+                                    type="radio"
+                                    name="trybEkspertyza"
+                                    value={val}
+                                    id={`trybEkspertyza-${idx}`}
+                                    defaultChecked={elementMetadata?.trybEkspertyza === val}
+                                />
                                 <label htmlFor={`trybEkspertyza-${idx}`}> {val} </label>
                             </React.Fragment>
                         )
@@ -54,6 +105,10 @@ export const ElementSurvey = ({element, surveyData}) => {
                 </div>
 
                 <button type="submit">Zapisz</button>
+
+                {isUpdatingSurveyData && <p>Wysyłanie...</p>}
+                {errorUpdatingSurvey && <p>Wystąpił błąd: {errorUpdatingSurvey.status}</p>}
+                {isUpdatingSurveySuccess && <p>Dane zostały zapisane</p>}
             </form>
 
             <hr/>
@@ -61,5 +116,5 @@ export const ElementSurvey = ({element, surveyData}) => {
             <h4>Zdjęcia</h4>
             <UploadFile/>
         </div>
-    )
+    );
 }
