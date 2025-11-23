@@ -19,10 +19,18 @@ export const api = createApi({
                 };
             }
         }),
+        projectSurvey: build.query({
+            query(project) {
+                return {
+                    url: `/project/${project}/changes`,
+                };
+            }
+        }),
     }),
 });
 
 export const {
     useProjectModelQuery,
     useProjectListQuery,
+    useProjectSurveyQuery
 } = api;

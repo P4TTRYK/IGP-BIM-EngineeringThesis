@@ -1,12 +1,13 @@
 import {Link, useParams} from "react-router";
 import {Xeokit} from "../components/Xeokit.jsx";
-import {useProjectListQuery, useProjectModelQuery} from "../services/api.js";
+import {useProjectListQuery, useProjectModelQuery, useProjectSurveyQuery} from "../services/api.js";
 import styles from "./Project.module.css";
 import {Icon} from "../components/Icon.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
     const {data: model, isFetching: fetchingModel, error: errorModel} = useProjectModelQuery(projectId);
+    const {data: surveyData, isFetching: fetchingSurveyData, error: errorSurveyData} = useProjectSurveyQuery(projectId);
     const {data: projectsList} = useProjectListQuery();
 
     let projectInfo = {};
@@ -28,8 +29,14 @@ export const Project = () => {
 
             <div className={styles['xeokit-container']}>
                 {fetchingModel && <div>Ładowanie modelu...</div>}
+                {fetchingSurveyData && <div>Ładowanie zmian...</div>}
+
                 {errorModel && <div className={styles['error-text']}>Wystąpił błąd: {errorModel.status}</div>}
-                {!fetchingModel && !errorModel && model && <Xeokit model={model}/>}
+                {errorSurveyData && <div className={styles['error-text']}>Wystąpił błąd: {errorSurveyData.status}</div>}
+
+                {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
+                    <Xeokit model={model} survey={surveyData} project={projectId}/>
+                }
             </div>
         </div>
     );

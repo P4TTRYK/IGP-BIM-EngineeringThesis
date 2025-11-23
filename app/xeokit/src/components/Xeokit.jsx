@@ -5,7 +5,7 @@ import styles from "./Xeokit.module.css";
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model}) {
+export function Xeokit({model, survey, project}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
