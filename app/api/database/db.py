@@ -8,8 +8,14 @@ class DB:
         self.cursor = self.connection.cursor()
 
     def __del__(self):
-        self.cursor.close()
-        self.connection.close()
+        try:
+            self.cursor.close()
+        except Exception:
+            pass
+        try:
+            self.connection.close()
+        except Exception:
+            pass
 
     def init_db(self):
         with open('./schema.sql', 'r') as sql_file:
