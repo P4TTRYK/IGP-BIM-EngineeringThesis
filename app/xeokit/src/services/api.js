@@ -26,11 +26,21 @@ export const api = createApi({
                 };
             }
         }),
+        updateSurvey: build.mutation({
+            query({project, formSurveyData}) {
+                return {
+                    url: `/project/${project}/changes`,
+                    method: 'POST',
+                    body: formSurveyData,
+                };
+            },
+        })
     }),
 });
 
 export const {
     useProjectModelQuery,
     useProjectListQuery,
-    useProjectSurveyQuery
+    useProjectSurveyQuery,
+    useUpdateSurveyMutation,
 } = api;
