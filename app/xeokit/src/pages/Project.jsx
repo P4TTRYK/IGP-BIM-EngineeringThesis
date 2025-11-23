@@ -28,11 +28,15 @@ export const Project = () => {
             </nav>
 
             <div className={styles['xeokit-container']}>
-                {fetchingModel && <div>Ładowanie modelu...</div>}
-                {fetchingSurveyData && <div>Ładowanie zmian...</div>}
+                <pre>
+                    {fetchingModel && <div>Ładowanie modelu...</div>}
+                    {fetchingSurveyData && <div>Ładowanie zmian...</div>}
 
-                {errorModel && <div className={styles['error-text']}>Wystąpił błąd: {errorModel.status}</div>}
-                {errorSurveyData && <div className={styles['error-text']}>Wystąpił błąd: {errorSurveyData.status}</div>}
+                    {errorModel && <div className={styles['error-text']}>Wystąpił błąd: {errorModel.status}</div>}
+                    {errorSurveyData &&
+                        <div className={styles['error-text']}>Wystąpił błąd: {errorSurveyData.status}</div>
+                    }
+                </pre>
 
                 {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
                     <Xeokit model={model} survey={surveyData} project={projectId}/>
