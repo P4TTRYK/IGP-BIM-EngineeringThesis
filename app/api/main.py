@@ -77,3 +77,16 @@ def get_xkt(project_id):
         project_id,
         as_attachment=True
     )
+
+
+@app.get('/project/<project_id>/survey/<survey_id>/image/<image_id>')
+def get_survey_image(project_id, survey_id, image_id):
+    # https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types
+    if not any(image_id.endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+        return "Invalid file type", 400
+
+    return send_from_directory(
+        f"./uploads",
+        f"{project_id}_{survey_id}_{image_id}",
+        as_attachment=True
+    )
