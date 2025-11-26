@@ -1,15 +1,19 @@
+from PIL import Image
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
-from database import DB, get_projects_list, get_proj_changes, save_proj_changes
+from database import DB, get_projects_list, get_proj_changes, save_proj_changes, save_survey_photo
 from ifc import import_ifc_project
 
 app = Flask(__name__)
 cors = CORS(app)
 DB().init_db()
 
+ACCEPTED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp']
 INVALID_FILE_RESPONSE = "Invalid file", 400
 
+
+# TODO: max ifc and image file size
 @app.route('/')
 def index():
     # TODO: return api documentation
@@ -91,3 +95,47 @@ def get_survey_image(project_id, guid, image_id):
         f"{project_id}_{guid}_{image_id}",
         as_attachment=True
     )
+
+
+@app.post('/project/<project_id>/survey/<guid>/image')
+def post_survey_image(project_id, guid):
+    if 'file' not in request.files:
+        return "No file has been provided", 400
+
+    file = request.files['file']
+
+    # check filename
+    if (
+            file.filename == "" or
+            not file.mimetype.startswith('image/') or
+            not any(file.filename.rsplit('.', 1)[1].lower() == ext for ext in ACCEPTED_IMAGE_EXTENSIONS)
+    ):
+        return INVALID_FILE_RESPONSE
+
+    # check file type
+    try:
+        img = Image.open(file.stream)
+        img.verify()
+        file.stream.seek(0)
+        file_format = img.format.lower()
+
+        if file_format not in ACCEPTED_IMAGE_EXTENSIONS:
+            return INVALID_FILE_RESPONSE
+    except Exception:
+        return INVALID_FILE_RESPONSE
+
+    db = DB()
+    result, code = save_survey_photo(
+        cursor=db.cursor,
+        file=file,
+        file_format=file_format,
+        project_id=project_id,
+        guid=guid
+    )
+    db.connection.commit()
+    db.connection.close()
+
+    if result is None:
+        return jsonify("Cannot process ifc file"), 500
+
+    return jsonify(result), code
