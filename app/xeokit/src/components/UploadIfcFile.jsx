@@ -90,6 +90,7 @@ export const UploadIfcFile = ({onUpload}) => {
                 accept: '.ifc',
             }}
             file={file}
+            fileRegex={/\.ifc$/i}
             setFile={handleFileChange}
         >
             {uploadError ? <span className={styles['error-text']}>Błąd wysyłania pliku</span> : uploadMessage}

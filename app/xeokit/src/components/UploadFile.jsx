@@ -10,7 +10,9 @@ export const UploadFile = (
             capture: false,
         },
         children = null,
+        className = '',
         file = null,
+        fileRegex = /.*/,
         setFile = (file) => {
         },
     }) => {
@@ -71,7 +73,7 @@ export const UploadFile = (
 
         const droppedFiles = [...e.dataTransfer.files];
 
-        if (droppedFiles.length > 0 && droppedFiles[0].name.match(/\.ifc$/i)) {
+        if (droppedFiles.length > 0 && droppedFiles[0].name.match(fileRegex)) {
             setFile(droppedFiles[0]);
         }
     }
@@ -83,7 +85,7 @@ export const UploadFile = (
 
     // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/File_drag_and_drop
     return (
-        <div className={styles['upload-container']}>
+        <div className={`${styles['upload-container']} ${className}`}>
             <label
                 className={`${styles['drop-zone']} ${dragStyle ? styles['drag-over'] : ''}`}
                 onChange={handleFileChange}
