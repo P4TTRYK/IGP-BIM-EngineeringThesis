@@ -1,4 +1,4 @@
-import {UploadFile} from "../components/UploadFile.jsx";
+import {UploadIfcFile} from "../components/UploadIfcFile.jsx";
 import {ProjectCard} from "../components/Project_card.jsx";
 import {useProjectListQuery} from "../services/api.js";
 import styles from './ProjectsList.module.css';
@@ -8,7 +8,7 @@ export const ProjectsList = () => {
     return (
         <div className={styles['projects-list-page']}>
             <h2>Utwórz nowy projekt przesyłając plik IFC</h2>
-            <UploadFile onUpload={refetch}/>
+            <UploadIfcFile onUpload={refetch}/>
 
             <h1>Lista projektów</h1>
             <div className={styles['project-list']}>

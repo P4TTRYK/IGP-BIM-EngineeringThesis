@@ -1,10 +1,10 @@
 import {useEffect, useRef, useState} from "react";
-import styles from "./UploadFile.module.css";
+import styles from "./UploadIfcFile.module.css";
 import {fileSizeFormat} from "../utils/fileSizeFormat.js";
 import {ProgressBar} from "./ProgressBar.jsx";
 import {Link} from "react-router";
 
-export const UploadFile = ({onUpload}) => {
+export const UploadIfcFile = ({onUpload}) => {
     const [file, setFile] = useState(null)
     const [dragStyle, setDragStyle] = useState(false);
     const dropZone = useRef(null)
