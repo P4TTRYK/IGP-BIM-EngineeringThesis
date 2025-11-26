@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import styles from './ElementSurvey.module.css';
 import {useUpdateSurveyMutation} from "../services/api.js";
 import {SurveyPhotos} from "./SurveyPhotos.jsx";
-import {UploadSurveyPhotos} from "./UploadSurveyPhotos.jsx";
+import {UploadSurveyPhoto} from "./UploadSurveyPhoto.jsx";
 
 const emptyForm = {
     uszkodzenia: '',
@@ -135,6 +135,10 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
                 project={element.project}
                 survey={element.id}
                 photos={JSON.parse(elementSurveyData?.photos ?? '[]')}
+            />
+            <UploadSurveyPhoto
+                project={element.project}
+                survey={element.id}
             />
         </div>
     );
