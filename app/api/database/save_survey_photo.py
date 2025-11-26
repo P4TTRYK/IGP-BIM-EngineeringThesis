@@ -1,6 +1,8 @@
 import os
 import uuid
 
+from PIL import Image
+
 from database import get_projects_list
 
 
@@ -17,6 +19,16 @@ def save_survey_photo(cursor, file, file_format, project_id, guid):
 
     file_path = os.path.join("./uploads/photos", f"{project_id}_{guid}_{filename}")
     file.save(file_path)
+
+    # save thumbnail
+    try:
+        img = Image.open(file_path)
+        img.thumbnail((256, 256))
+        thumbnail_path = os.path.join("./uploads/photos", f"small_{project_id}_{guid}_{filename}")
+        img.save(thumbnail_path)
+    except Exception as e:
+        print(e)
+        return ["Failed to process image", 500]
 
     # insert empty survey if not exists
     cursor.execute("""

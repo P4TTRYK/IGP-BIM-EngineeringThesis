@@ -97,6 +97,18 @@ def get_survey_image(project_id, guid, image_id):
     )
 
 
+@app.get('/project/<project_id>/survey/<guid>/image/<image_id>/small')
+def get_survey_image_thumbnail(project_id, guid, image_id):
+    if not any(image_id.endswith(ext) for ext in ACCEPTED_IMAGE_EXTENSIONS):
+        return INVALID_FILE_RESPONSE
+
+    return send_from_directory(
+        f"./uploads/photos",
+        f"small_{project_id}_{guid}_{image_id}",
+        as_attachment=False
+    )
+
+
 @app.post('/project/<project_id>/survey/<guid>/image')
 def post_survey_image(project_id, guid):
     if 'file' not in request.files:
