@@ -15,7 +15,7 @@ def save_survey_photo(cursor, file, file_format, project_id, guid):
 
     filename = f"{str(uuid.uuid7())}.{file_format}"
 
-    file_path = os.path.join("./uploads/photos", filename)
+    file_path = os.path.join("./uploads/photos", f"{project_id}_{guid}_{filename}")
     file.save(file_path)
 
     # insert empty survey if not exists

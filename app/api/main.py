@@ -93,7 +93,7 @@ def get_survey_image(project_id, guid, image_id):
     return send_from_directory(
         f"./uploads/photos",
         f"{project_id}_{guid}_{image_id}",
-        as_attachment=True
+        as_attachment=False
     )
 
 
