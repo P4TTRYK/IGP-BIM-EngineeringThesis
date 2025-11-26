@@ -1,0 +1,22 @@
+.upload-button {
+    font-size: 1em;
+    margin: 0.5em;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    background-color: var(--subtle-color);
+}
+
+.upload-button[disabled] {
+    cursor: not-allowed;
+    color: var(--subtle-color);
+    background-color: var(--light-background-color);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4) inset;
+}
+
+.error-text {
+    color: var(--error-color);
+}
