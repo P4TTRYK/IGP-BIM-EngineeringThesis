@@ -5,7 +5,6 @@ from database import get_projects_list
 
 def save_proj_changes(cursor, project_id, changes):
     try:
-        result = []
         guid = changes['guid']  # text
         metadata = changes['metadata']  # json as text
 
