@@ -126,9 +126,9 @@ export function Xeokit({model, survey, project}) {
         return () => {
             viewer.cameraControl.off("picked", handlePicked);
             viewer.scene.clear();
-            viewer.destroy();
             navCube.destroy();
-            treeView.destroy?.();
+            treeView.destroy();
+            viewer.destroy();
             setPicked(null);
         };
     }, [model, project]);
