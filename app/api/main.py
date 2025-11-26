@@ -8,6 +8,7 @@ app = Flask(__name__)
 cors = CORS(app)
 DB().init_db()
 
+INVALID_FILE_RESPONSE = "Invalid file", 400
 
 @app.route('/')
 def index():
@@ -50,11 +51,11 @@ def upload_ifc():
 
     file = request.files['file']
 
-    if not file.filename.rsplit('.', 1)[1].lower() == 'ifc':
-        return "Wrong file extension", 422
-
-    if file.filename == "":
-        return "Wrong filename", 422
+    if (
+            file.filename == "" or
+            not file.filename.rsplit('.', 1)[1].lower() == 'ifc'
+    ):
+        return INVALID_FILE_RESPONSE
 
     db = DB()
     result = import_ifc_project(db.cursor, file)
@@ -70,7 +71,7 @@ def upload_ifc():
 @app.get('/get_xkt/<project_id>')
 def get_xkt(project_id):
     if not project_id.endswith('.xkt'):
-        return "Invalid file type", 400
+        return INVALID_FILE_RESPONSE
 
     return send_from_directory(
         "./uploads",
@@ -79,14 +80,14 @@ def get_xkt(project_id):
     )
 
 
-@app.get('/project/<project_id>/survey/<survey_id>/image/<image_id>')
-def get_survey_image(project_id, survey_id, image_id):
+@app.get('/project/<project_id>/survey/<guid>/image/<image_id>')
+def get_survey_image(project_id, guid, image_id):
     # https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types
-    if not any(image_id.endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.webp']):
-        return "Invalid file type", 400
+    if not any(image_id.endswith(ext) for ext in ACCEPTED_IMAGE_EXTENSIONS):
+        return INVALID_FILE_RESPONSE
 
     return send_from_directory(
-        f"./uploads",
-        f"{project_id}_{survey_id}_{image_id}",
+        f"./uploads/photos",
+        f"{project_id}_{guid}_{image_id}",
         as_attachment=True
     )
