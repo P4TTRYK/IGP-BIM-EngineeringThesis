@@ -27,7 +27,7 @@ export const UploadIfcFile = ({onUpload}) => {
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open("POST", "http://127.0.0.1:5000/upload_ifc");
+        xhr.open("POST", `${import.meta.env.VITE_API_SERVER}/upload_ifc`);
 
         xhr.upload.addEventListener("progress", (e) => {
             if (e.lengthComputable) {

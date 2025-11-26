@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 export const api = createApi({
     reducerPath: 'api',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://127.0.0.1:5000'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_SERVER}),
     endpoints: (build) => ({
         projectModel: build.query({
             query(project) {

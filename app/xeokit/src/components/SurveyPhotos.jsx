@@ -9,7 +9,7 @@ export const SurveyPhotos = ({project, survey, photos}) => {
                 links.map((photo, index) => (
                     <div key={index} className={styles['photo-container']}>
                         <img
-                            src={`http://10.4.4.13:5000/project/${project}/survey/${survey}/image/${photo}`}
+                            src={`${import.meta.env.VITE_API_SERVER}/project/${project}/survey/${survey}/image/${photo}`}
                             alt={`Survey Photo ${index + 1}`}
                             className={styles.photo}
                         />

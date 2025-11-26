@@ -34,7 +34,7 @@ export const UploadSurveyPhoto = ({project, survey}) => {
 
         const xhr = new XMLHttpRequest();
 
-        xhr.open("POST", `http://127.0.0.1:5000/project/${project}/survey/${survey}/image`);
+        xhr.open("POST", `${import.meta.env.VITE_API_SERVER}/project/${project}/survey/${survey}/image`);
 
         xhr.upload.addEventListener("progress", (e) => {
             if (e.lengthComputable) {
