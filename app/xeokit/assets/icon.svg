@@ -1,22 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="10" fill="#0A0F1A"/>
-  <g stroke="#a664c8" stroke-width="2.5" fill="none">
-    <rect x="14" y="14" width="24" height="30" rx="3"/>
-    <line x1="14" y1="20" x2="38" y2="20"/>
-    <line x1="14" y1="26" x2="38" y2="26"/>
-    <line x1="14" y1="32" x2="38" y2="32"/>
-    <line x1="14" y1="38" x2="38" y2="38"/>
+    <rect width="64" height="64" rx="10" fill="#0A0F1A"/>
+    <g stroke="#a664c8" stroke-width="2.5" fill="none">
+        <rect x="14" y="14" width="24" height="30" rx="3"/>
+        <line x1="14" y1="20" x2="38" y2="20"/>
+        <line x1="14" y1="26" x2="38" y2="26"/>
+        <line x1="14" y1="32" x2="38" y2="32"/>
+        <line x1="14" y1="38" x2="38" y2="38"/>
 
-    <line x1="22" y1="44" x2="22" y2="14"/>
-    <line x1="30" y1="44" x2="30" y2="14"/>
+        <line x1="22" y1="44" x2="22" y2="14"/>
+        <line x1="30" y1="44" x2="30" y2="14"/>
 
-    <line x1="10.5" y1="44" x2="41.5" y2="44"/>
-    <line x1="11.5" y1="14" x2="40.5" y2="14"/>
-    <line x1="13" y1="12.5" x2="38" y2="12.5"/>
+        <line x1="10.5" y1="44" x2="41.5" y2="44"/>
+        <line x1="11.5" y1="14" x2="40.5" y2="14"/>
+        <line x1="13" y1="12.5" x2="38" y2="12.5"/>
 
-  </g>
-  <g transform="translate(38,38)" stroke="#F9C74F" stroke-width="2.5" fill="none" stroke-linecap="round">
-    <circle cx="0" cy="0" r="8"/>
-    <line x1="5" y1="6.2" x2="12" y2="15"/>
-  </g>
+    </g>
+    <g transform="translate(38,38)" stroke="#F9C74F" stroke-width="2.5" fill="none" stroke-linecap="round">
+        <circle cx="0" cy="0" r="8"/>
+        <line x1="5" y1="6.2" x2="12" y2="15"/>
+    </g>
 </svg>

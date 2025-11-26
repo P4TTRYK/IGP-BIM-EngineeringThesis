@@ -1,20 +1,20 @@
 .photos {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    max-width: 100%;
     overflow-x: auto;
+    flex-wrap: wrap;
     justify-content: space-evenly;
+    max-width: 100%;
     padding: 1em 0;
+    gap: 1em;
 }
 
 .photo-container {
     position: relative;
+    overflow: hidden;
     width: 150px;
     height: 150px;
     border: 1px solid var(--subtle-color);
     border-radius: 4px;
-    overflow: hidden;
     background-color: var(--background-color);
 }
 
