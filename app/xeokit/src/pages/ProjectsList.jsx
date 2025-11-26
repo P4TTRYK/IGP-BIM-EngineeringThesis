@@ -4,17 +4,17 @@ import {useProjectListQuery} from "../services/api.js";
 import styles from './ProjectsList.module.css';
 
 export const ProjectsList = () => {
-    const {data, isFetching, error} = useProjectListQuery();
+    const {data, isLoading, error, refetch} = useProjectListQuery();
     return (
         <div className={styles['projects-list-page']}>
             <h2>Utwórz nowy projekt przesyłając plik IFC</h2>
-            <UploadFile/>
+            <UploadFile onUpload={refetch}/>
 
             <h1>Lista projektów</h1>
             <div className={styles['project-list']}>
-                {isFetching && <h3>Ładowanie projektów...</h3>}
+                {isLoading && <h3>Ładowanie projektów...</h3>}
                 {error && <h3 className={styles['error-text']}>Wystąpił błąd: {error.status}</h3>}
-                {!isFetching && !error && (
+                {!isLoading && !error && (
                     (!data || data.length === 0)
                         ? <h3>Brak projektów</h3>
                         : data.map((project, idx) =>

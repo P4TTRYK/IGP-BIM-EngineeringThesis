@@ -4,8 +4,7 @@ import {fileSizeFormat} from "../utils/fileSizeFormat.js";
 import {ProgressBar} from "./ProgressBar.jsx";
 import {Link} from "react-router";
 
-// TODO: make component more generic for photo upload.
-export const UploadFile = () => {
+export const UploadFile = ({onUpload}) => {
     const [file, setFile] = useState(null)
     const [dragStyle, setDragStyle] = useState(false);
     const dropZone = useRef(null)
@@ -78,6 +77,8 @@ export const UploadFile = () => {
                 setFile(null);
 
                 const {id: projectId = null, name: projectName = null} = JSON.parse(xhr.response);
+
+                onUpload();
 
                 setUploadMessage(
                     <>
@@ -153,7 +154,7 @@ export const UploadFile = () => {
                 onDrop={handleFileDrop}
                 ref={dropZone}
             >
-                Upuść lub kliknij, aby wybrać plik IFC
+                Upuść lub kliknij tutaj, aby wybrać plik
                 {file && <p>Wybrano plik<br/><b>{file.name}</b> ({fileSizeFormat(file.size)})</p>}
                 <input
                     type="file"
