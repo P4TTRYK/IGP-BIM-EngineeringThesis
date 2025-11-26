@@ -1,0 +1,17 @@
+.container {
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    display: flex;
+    overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 350px;
+    max-height: calc(100% - 70px);
+    padding: 10px;
+    opacity: 0.8;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 1);
+}
