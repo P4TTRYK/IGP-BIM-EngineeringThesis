@@ -1,7 +1,7 @@
 import {useState} from "react";
 import styles from "./UI_menu.module.css";
 
-export default function UI_menu() {
+export default function UI_menu({children}) {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => {
@@ -20,8 +20,7 @@ export default function UI_menu() {
                 <span className={styles.iconStripe}/>
                 <span className={styles.iconStripe}/>
             </button>
-
-            {isOpen && <div className={styles.panel}/>}
+            <div className={`${styles.panel} ${isOpen ? "" : styles.hidden}`}>{children}</div>
         </div>
     );
 }

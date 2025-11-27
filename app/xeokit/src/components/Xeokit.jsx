@@ -6,10 +6,9 @@ import {ElementSurvey} from "./ElementSurvey.jsx";
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project}) {
+export function Xeokit({model, survey, project, treeViewRef}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
-    const treeViewRef = useRef(null);
     const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
@@ -147,13 +146,8 @@ export function Xeokit({model, survey, project}) {
             <canvas
                 id="myNavCubeCanvas"
                 ref={navCubeRef}
-                className={`${styles.myNavCubeCanvas} ${picked ? styles['picked-element'] : ''}`}
+                className={styles.myNavCubeCanvas}
             />
-            <div
-                id="treeViewContainer"
-                ref={treeViewRef}
-                className={styles.treeViewContainer}
-            ></div>
         </>
     );
 }

@@ -15,7 +15,7 @@
     padding: 8px 10px;
     border: 1.5px solid var(--text-color);
     border-radius: 8px;
-    background: var(--background-color);
+    background: var(--subtle-color);
 }
 
 .iconStripe {
@@ -26,9 +26,19 @@
 }
 
 .panel {
-    width: 240px;
+    overflow: auto;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    width: 300px;
     min-height: 140px;
+    /* funkcja css*/
+    max-height: calc(100% - 80px);
     border-radius: 10px;
     border: 1px rgba(255, 255, 255, 0.3);
     background: var(--light-background-color);
+}
+
+.panel.hidden {
+    visibility: hidden;
 }
