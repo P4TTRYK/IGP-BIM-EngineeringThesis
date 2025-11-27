@@ -5,7 +5,6 @@ from database import get_projects_list
 
 def save_proj_changes(cursor, project_id, changes):
     try:
-        result = []
         guid = changes['guid']  # text
         metadata = changes['metadata']  # json as text
 
@@ -33,7 +32,7 @@ def save_proj_changes(cursor, project_id, changes):
                        ON CONFLICT(project_id, guid) DO UPDATE SET metadata=excluded.metadata
                        """, (project_id, guid, metadata))
 
-        return ['ok', 200]
+        return ['ok', 201]
 
     except sqlite3.Error as e:
         print(f"Błąd bazy danych: {e}")

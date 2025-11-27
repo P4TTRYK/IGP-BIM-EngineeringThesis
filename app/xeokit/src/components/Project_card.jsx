@@ -29,7 +29,7 @@ export const ProjectCard = ({project, style = {}}) => {
             {/*https://stackoverflow.com/questions/7995080/html-if-image-is-not-found*/}
             <div className={styles.thumbnail}>
                 {!imgError && <img
-                    src={`http://127.0.0.1:5000/projects/${id}/thumbnail`}
+                    src={`${import.meta.env.VITE_API_SERVER}/projects/${id}/thumbnail`}
                     onError={() => setImgError(true)}
                     alt={`${name} thumbnail`}
                 />}

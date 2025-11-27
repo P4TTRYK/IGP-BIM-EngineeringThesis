@@ -2,11 +2,7 @@
     position: absolute;
     top: 60px;
     right: 10px;
-    display: flex;
     overflow-y: auto;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
     box-sizing: border-box;
     width: 350px;
     max-height: calc(100% - 70px);
