@@ -9,3 +9,4 @@ app/api/Thesis.db-journal
 /app/api/bim
 *.svg
 !app/xeokit/assets/icon.svg
+app/api/uv.lock
