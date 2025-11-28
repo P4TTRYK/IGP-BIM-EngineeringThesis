@@ -39,6 +39,8 @@ def convert_to_gltf(ifc, glb):
 # https://stackoverflow.com/questions/74248100/saving-cross-section-of-3d-object-by-trimesh-python
 def render_glb_thumbnail(glb_path, output_path, size=(512, 384)):
     scene = trimesh.load_scene(glb_path)
+    # https://trimesh.org/trimesh.scene.scene.html#trimesh.scene.scene.Scene.set_camera
+    scene.set_camera(angles=(-0.1, -0.5, 0))
     bytes_ = scene.save_image(resolution=size)
 
     image = Image.open(io.BytesIO(bytes_))
