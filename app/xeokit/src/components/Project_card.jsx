@@ -12,7 +12,9 @@ export const ProjectCard = ({project, style = {}}) => {
         name = null,
         description = null,
         created_at = null,
-        updated_at = null
+        updated_at = null,
+        changes = null,
+        photos = null,
     } = project;
 
     const updatedAtLocal = convertGMTToLocal(updated_at);
@@ -46,6 +48,11 @@ export const ProjectCard = ({project, style = {}}) => {
                 <br/>
                 <span data-title={formatDateTime(createdAtLocal)}>
                     Utworzono: {textRelativeTime(createdAtLocal)}
+                </span>
+                <br/>
+                <span>
+                    Zmian: {changes ?? 'N/A'} |
+                    Zdjęć: {photos ?? 'N/A'}
                 </span>
             </p>
         </Link>
