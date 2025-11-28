@@ -136,7 +136,7 @@ export function Xeokit({model, survey, project}) {
     return (
         <>
             <div className={styles.elementInfo}>
-                {picked ? <>{picked.name} ({picked.type})</> : "..."}
+                {picked ? <>{picked.name} ({picked.type}) / {picked.id}</> : "..."}
             </div>
             {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
             <canvas
