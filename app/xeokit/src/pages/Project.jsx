@@ -4,6 +4,7 @@ import {Xeokit} from "../components/Xeokit.jsx";
 import UI_menu from "../components/UI_menu.jsx";
 import {useProjectListQuery, useProjectModelQuery, useProjectSurveyQuery} from "../services/api.js";
 import styles from "./Project.module.css";
+import MenuTile from "../components/MenuTile.jsx";
 import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
 
@@ -30,11 +31,13 @@ export const Project = () => {
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
                 <UI_menu>
-                    <div
-                        id="treeViewContainer"
-                        ref={treeViewRef}
-                        className={xeokit_styles.treeViewContainer}
-                    ></div>
+                    <div className={styles.tilesRow}>
+                        <MenuTile
+                            id="treeViewContainer"
+                            ref={treeViewRef}
+                            className={xeokit_styles.treeViewContainer}
+                        ></MenuTile>
+                    </div>
                 </UI_menu>
             </nav>
 

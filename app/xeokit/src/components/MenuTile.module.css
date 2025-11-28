@@ -1,0 +1,24 @@
+.tile {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 10px;
+    background: var(--subtle-color);
+    border: 1px solid var(--text-color);
+    cursor: pointer;
+}
+
+.iconBox > svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--text-color);
+}
+
+.label {
+    font-size: 0.8em;
+    text-align: center;
+}

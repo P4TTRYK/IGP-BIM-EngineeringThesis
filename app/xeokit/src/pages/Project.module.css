@@ -48,6 +48,13 @@
     height: calc(100% - 50px);
 }
 
+.tilesRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+}
+
 .error-text {
     color: var(--error-color);
 }
