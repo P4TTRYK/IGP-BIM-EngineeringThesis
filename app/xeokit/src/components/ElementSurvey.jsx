@@ -20,6 +20,7 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
         () => (elementSurveyData ? JSON.parse(elementSurveyData.metadata) : null),
         [elementSurveyData]
     );
+    const [surveyPhotos, setSurveyPhotos] = useState([]);
 
     useEffect(() => {
         setFormValues({
@@ -28,7 +29,9 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
             czyEkspertyza: elementMetadata?.czyEkspertyza || '',
             trybEkspertyza: elementMetadata?.trybEkspertyza || ''
         });
-    }, [element.id, elementMetadata]);
+
+        setSurveyPhotos(JSON.parse(elementSurveyData?.photos ?? '[]'));
+    }, [element.id, elementMetadata, elementSurveyData]);
 
     const handleChange = ({target}) => {
         const {name, value} = target;
@@ -52,10 +55,24 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
         onUpdateSurvey({
             guid: element.id,
             metadata,
+            photos: JSON.stringify(surveyPhotos),
             updated_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
         });
 
         await updateSurvey({project: element.project, formSurveyData: surveyFormData});
+    };
+
+    const handleUploadPhoto = (newPhoto) => {
+        const updatedPhotos = [...surveyPhotos];
+
+        updatedPhotos.push(newPhoto);
+        setSurveyPhotos(updatedPhotos);
+        onUpdateSurvey({
+            guid: element.id,
+            metadata: elementMetadata ? JSON.stringify(elementMetadata) : '{}',
+            photos: JSON.stringify(updatedPhotos),
+            updated_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
+        });
     };
 
     return (
@@ -134,11 +151,12 @@ export const ElementSurvey = ({element, surveyData, onUpdateSurvey}) => {
             <SurveyPhotos
                 project={element.project}
                 survey={element.id}
-                photos={JSON.parse(elementSurveyData?.photos ?? '[]')}
+                photos={surveyPhotos}
             />
             <UploadSurveyPhoto
                 project={element.project}
                 survey={element.id}
+                onUploadPhoto={handleUploadPhoto}
             />
         </div>
     );
