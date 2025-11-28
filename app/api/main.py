@@ -29,6 +29,15 @@ def get_projects():
     return jsonify(projects), code
 
 
+@app.get('/project/<project_id>/image')
+def get_project_image(project_id):
+    return send_from_directory(
+        f"./uploads",
+        f"{project_id}.png",
+        as_attachment=False
+    )
+
+
 @app.get('/project/<project_id>/changes')
 def get_project_changes(project_id):
     db = DB()
