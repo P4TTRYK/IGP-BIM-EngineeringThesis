@@ -10,3 +10,4 @@ app/api/Thesis.db-journal
 *.svg
 !app/xeokit/assets/icon.svg
 app/api/uv.lock
+*.frag

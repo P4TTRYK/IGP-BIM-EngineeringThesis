@@ -1,9 +1,11 @@
+import os
+
 from PIL import Image
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
 from database import DB, get_projects_list, get_proj_changes, save_proj_changes, save_survey_photo
-from ifc import import_ifc_project
+from ifc import import_ifc_project, export_ifc_changes
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -38,7 +40,36 @@ def get_project_image(project_id):
     )
 
 
-@app.get('/project/<project_id>/changes')
+@app.get('/project/<int:project_id>/export')
+def get_changed_project(project_id):
+    project_id = str(project_id)
+
+    db = DB()
+    changes, code = get_proj_changes(db.cursor, project_id)
+    db.connection.close()
+
+    if code != 200:
+        return jsonify("Error"), code
+
+    input_ifc = f"./uploads/{project_id}.ifc"
+    if not os.path.exists(input_ifc):
+        return jsonify("Error"), 404
+
+    output_ifc = f"./uploads/{project_id}_changed.ifc"
+
+    code = export_ifc_changes(changes, input_ifc, output_ifc)
+
+    if code != 200:
+        return jsonify("Error"), code
+
+    return send_from_directory(
+        f"./uploads",
+        f"{project_id}_changed.ifc",
+        as_attachment=False
+    )
+
+
+@app.get('/project/<int:project_id>/changes')
 def get_project_changes(project_id):
     db = DB()
     changes, code = get_proj_changes(db.cursor, str(project_id))
