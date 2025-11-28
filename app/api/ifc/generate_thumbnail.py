@@ -41,7 +41,8 @@ def render_glb_thumbnail(glb_path, output_path, size=(512, 384)):
     scene = trimesh.load_scene(glb_path)
     # https://trimesh.org/trimesh.scene.scene.html#trimesh.scene.scene.Scene.set_camera
     scene.set_camera(angles=(-0.1, -0.5, 0))
-    bytes_ = scene.save_image(resolution=size)
+    # 197, 192, 200 | 46, 29, 55
+    bytes_ = scene.save_image(resolution=size, background=[255, 255, 255, 255])
 
     image = Image.open(io.BytesIO(bytes_))
     image.save(output_path)
