@@ -1,11 +1,4 @@
-.menuWrapper {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.toggleButton {
+.toggle-button {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,11 +13,11 @@
     gap: 6px;
 }
 
-.toggleButton:hover {
+.toggle-button:hover {
     background: var(--subtle-color);
 }
 
-.iconStripe {
+.toggle-button > span {
     height: 3px;
     transition: background-color 0.3s ease-out;
     border-radius: 3px;

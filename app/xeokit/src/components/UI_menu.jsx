@@ -9,18 +9,20 @@ export default function UI_menu({children}) {
     };
 
     return (
-        <div className={styles.menuWrapper}>
+        <>
             <button
                 type="button"
                 aria-expanded={isOpen}
-                className={`${styles.toggleButton} ${isOpen ? styles.open : ""}`}
+                className={`${styles['toggle-button']} ${isOpen ? styles.open : ""}`}
                 onClick={handleToggle}
             >
-                <span className={styles.iconStripe}/>
-                <span className={styles.iconStripe}/>
-                <span className={styles.iconStripe}/>
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
-            <div className={`${styles.panel} ${isOpen ? "" : styles.hidden}`}>{children}</div>
-        </div>
+            <div className={`${styles.panel} ${isOpen ? "" : styles.hidden}`}>
+                {children}
+            </div>
+        </>
     );
 }
