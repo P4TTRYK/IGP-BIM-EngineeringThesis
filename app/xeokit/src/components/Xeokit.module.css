@@ -14,16 +14,12 @@
 
 .navCubeCanvas {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    left: 10px;
+    bottom: 40px;
     width: 250px;
     max-width: 50vw;
     height: 250px;
     max-height: 50vh;
-}
-
-.navCubeCanvas.picked-element {
-    right: 360px;
 }
 
 .elementInfo {
@@ -37,19 +33,6 @@
     max-height: 40vh;
     padding: 10px;
     color: white;
-    border-radius: 12px;
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-.treeViewContainer {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    overflow-y: auto;
-    box-sizing: border-box;
-    width: 350px;
-    max-height: calc(100% - 104px);
-    padding-right: 10px;
     border-radius: 12px;
     background-color: rgba(0, 0, 0, 0.7);
 }

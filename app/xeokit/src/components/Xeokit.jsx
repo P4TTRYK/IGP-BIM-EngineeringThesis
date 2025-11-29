@@ -6,7 +6,7 @@ import {ElementSurvey} from "./ElementSurvey.jsx";
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project}) {
+export function Xeokit({model, survey, project, treeViewRef}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);

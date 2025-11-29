@@ -1,11 +1,15 @@
+import {useRef} from "react";
 import {Link, useParams} from "react-router";
 import {Xeokit} from "../components/Xeokit.jsx";
+import UI_menu from "../components/UI_menu.jsx";
 import {useProjectListQuery, useProjectModelQuery, useProjectSurveyQuery} from "../services/api.js";
 import styles from "./Project.module.css";
 import {Icon} from "../components/Icon.jsx";
+import xeokit_styles from "../components/Xeokit.module.css";
 
 export const Project = () => {
     const {projectId} = useParams();
+    const treeViewRef = useRef(null);
     const {data: model, isFetching: fetchingModel, error: errorModel} = useProjectModelQuery(projectId);
     const {data: surveyData, isFetching: fetchingSurveyData, error: errorSurveyData} = useProjectSurveyQuery(projectId);
     const {data: projectsList} = useProjectListQuery();
@@ -25,6 +29,13 @@ export const Project = () => {
                     <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
+                <UI_menu>
+                    <div
+                        id="treeViewContainer"
+                        ref={treeViewRef}
+                        className={xeokit_styles.treeViewContainer}
+                    ></div>
+                </UI_menu>
             </nav>
 
             <div className={styles['xeokit-container']}>
@@ -39,7 +50,7 @@ export const Project = () => {
                 </pre>
 
                 {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
-                    <Xeokit model={model} survey={surveyData} project={projectId}/>
+                    <Xeokit model={model} survey={surveyData} project={projectId} treeViewRef={treeViewRef}/>
                 }
             </div>
         </div>
