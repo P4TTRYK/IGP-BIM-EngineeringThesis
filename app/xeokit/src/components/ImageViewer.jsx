@@ -2,7 +2,6 @@ import styles from './ImageViewer.module.css';
 import {Icon} from "./Icon.jsx";
 
 export const ImageViewer = ({visible, imageLink, onHide}) => {
-    console.log(imageLink);
     return (
         <>
             <div

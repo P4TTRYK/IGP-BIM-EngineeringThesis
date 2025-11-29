@@ -14,6 +14,10 @@ export function Xeokit({model, survey, project}) {
     const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
+    const viewerRef = useRef(null);
+    const sceneModelRef = useRef(null);
+    const annotationsRef = useRef(null);
+
     useEffect(() => {
         setSurveyData(survey || []);
     }, [survey]);
@@ -32,12 +36,41 @@ export function Xeokit({model, survey, project}) {
         });
     };
 
+    const createAnnotationForSurvey = (surveyItem) => {
+        if (!sceneModelRef.current || !viewerRef.current || !annotationsRef.current) return;
+
+        const guid = surveyItem.guid ?? null;
+        if (!guid || !sceneModelRef.current.objects[guid]) return;
+
+        const annotationId = `a_${guid}`;
+
+        const center = getCenter(sceneModelRef.current.objects[guid].aabb);
+
+        if (annotationsRef.current.annotations[annotationId]) {
+            annotationsRef.current.destroyAnnotation(annotationId);
+        }
+
+        annotationsRef.current.createAnnotation({
+            id: annotationId,
+            entity: viewerRef.current.scene.objects[guid],
+            worldPos: center,
+            occludable: false,
+            markerShown: true,
+            values: {
+                glyph: guid.slice(0, 2).toUpperCase(),
+                markerBGColor: "#180a1e",
+            }
+        });
+    };
+
     const handleUpdateSurvey = (newSurvey) => {
         setSurveyData((prev) => {
             const next = prev.filter((s) => s.guid !== newSurvey.guid);
             next.push(newSurvey);
             return next;
         });
+
+        createAnnotationForSurvey(newSurvey);
     };
 
     // https://github.com/xeokit/xeokit-sdk/pull/1347
@@ -61,6 +94,8 @@ export function Xeokit({model, survey, project}) {
             dtxEnabled: true,
             pbrEnabled: true,
         });
+        viewerRef.current = viewer;
+
         viewer.camera.eye = [-10, 10, 10];
 
         const navCube = new NavCubePlugin(viewer, {
@@ -93,6 +128,7 @@ export function Xeokit({model, survey, project}) {
             //     },
             // }
         });
+        sceneModelRef.current = sceneModel;
 
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/annotations/annotations_clickShowLabels.html
         const annotations = new AnnotationsPlugin(viewer, {
@@ -103,28 +139,14 @@ export function Xeokit({model, survey, project}) {
             },
             container: markersRef.current
         });
+        annotationsRef.current = annotations;
 
         sceneModel.on("loaded", () => {
             // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
             viewer.cameraFlight.flyTo(sceneModel);
 
-            surveyData.forEach(change => {
-                const guid = change.guid ?? null;
-                if (!guid || !sceneModel.objects[guid]) return;
-
-                const center = getCenter(sceneModel.objects[guid].aabb);
-
-                annotations.createAnnotation({
-                    id: `a_${guid}`,
-                    entity: viewer.scene.objects[guid],
-                    worldPos: center,
-                    occludable: false,
-                    markerShown: true,
-                    values: {
-                        glyph: guid.slice(0, 2).toUpperCase(),
-                        markerBGColor: "#180a1e",
-                    }
-                });
+            surveyData.forEach((change) => {
+                createAnnotationForSurvey(change);
             });
         });
 
@@ -168,6 +190,9 @@ export function Xeokit({model, survey, project}) {
             navCube.destroy();
             treeView.destroy();
             viewer.destroy();
+            viewerRef.current = null;
+            sceneModelRef.current = null;
+            annotationsRef.current = null;
             setPicked(null);
         };
     }, [model, project]);
@@ -175,7 +200,6 @@ export function Xeokit({model, survey, project}) {
     return (
         <div className={styles['xeokit-container']}>
             <div
-                className={styles.markers}
                 ref={markersRef}
                 id="annotationMarkersContainer"
             ></div>
