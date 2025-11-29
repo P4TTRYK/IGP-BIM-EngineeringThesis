@@ -1,44 +1,52 @@
 .menuWrapper {
     display: flex;
+    align-items: flex-start;
     flex-direction: column;
     gap: 10px;
-    align-items: flex-start;
 }
 
 .toggleButton {
-    width: 48px;
-    height: 44px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 6px;
+    width: 48px;
+    height: 44px;
     padding: 8px 10px;
-    border: 1.5px solid var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease-out;
+    border: 2px solid var(--text-color);
     border-radius: 8px;
+    background: var(--light-background-color);
+    gap: 6px;
+}
+
+.toggleButton:hover {
     background: var(--subtle-color);
 }
 
 .iconStripe {
     height: 3px;
+    transition: background-color 0.3s ease-out;
     border-radius: 3px;
     background: var(--text-color);
-    transition: background-color 0.2s ease;
 }
 
 .panel {
-    overflow: auto;
     position: absolute;
     top: 60px;
     right: 10px;
+    overflow: auto;
     width: 300px;
     min-height: 140px;
-    /* funkcja css*/
     max-height: calc(100% - 80px);
-    border-radius: 10px;
+    transition: visibility 0s, opacity 0.3s ease-out;
+    opacity: 1;
     border: 1px rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
     background: var(--light-background-color);
 }
 
 .panel.hidden {
     visibility: hidden;
+    opacity: 0;
 }

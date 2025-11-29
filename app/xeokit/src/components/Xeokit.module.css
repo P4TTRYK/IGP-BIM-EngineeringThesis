@@ -14,8 +14,8 @@
 
 .navCubeCanvas {
     position: absolute;
-    left: 10px;
     bottom: 40px;
+    left: 10px;
     width: 250px;
     max-width: 50vw;
     height: 250px;
