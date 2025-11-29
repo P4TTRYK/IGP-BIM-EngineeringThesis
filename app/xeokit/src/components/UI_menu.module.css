@@ -19,9 +19,21 @@
 
 .toggle-button > span {
     height: 3px;
-    transition: background-color 0.3s ease-out;
+    transition: all 0.3s ease-out;
     border-radius: 3px;
     background: var(--text-color);
+}
+
+.toggle-button.open > span:nth-child(1) {
+    transform: rotate(-45deg) translate(-6px, 6.6px);
+}
+
+.toggle-button.open > span:nth-child(2) {
+    opacity: 0;
+}
+
+.toggle-button.open > span:nth-child(3) {
+    transform: rotate(45deg) translate(-6px, -6.6px);
 }
 
 .panel {

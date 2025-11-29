@@ -13,14 +13,14 @@ export default function UI_menu({children}) {
             <button
                 type="button"
                 aria-expanded={isOpen}
-                className={`${styles['toggle-button']} ${isOpen ? styles.open : ""}`}
+                className={`${styles['toggle-button']} ${isOpen && styles.open}`}
                 onClick={handleToggle}
             >
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <div className={`${styles.panel} ${isOpen ? "" : styles.hidden}`}>
+            <div className={`${styles.panel} ${!isOpen && styles.hidden}`}>
                 {children}
             </div>
         </>
