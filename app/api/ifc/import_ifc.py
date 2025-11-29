@@ -3,6 +3,7 @@ import uuid
 
 from ifc import get_ifc_file_info
 from ifc.convert_ifc2xkt import convert_ifc2xkt
+from ifc.generate_thumbnail import generate_thumbnail
 
 
 def import_ifc_project(db_cursor, file):
@@ -48,6 +49,10 @@ def import_ifc_project(db_cursor, file):
 
     if not xkt_conversion:
         return None
+
+    # create model thumbnail
+    thumbnail_path = os.path.join("./uploads", f"{project_id}.png")
+    generate_thumbnail(new_file_path, thumbnail_path)
 
     # return new project info
     return {

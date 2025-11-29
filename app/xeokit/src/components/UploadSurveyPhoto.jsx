@@ -4,7 +4,7 @@ import ifc_styles from "./UploadIfcFile.module.css";
 import {ProgressBar} from "./ProgressBar.jsx";
 import {useState} from "react";
 
-export const UploadSurveyPhoto = ({project, survey}) => {
+export const UploadSurveyPhoto = ({project, survey, onUploadPhoto}) => {
     const [file, setFile] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null)
 
@@ -55,8 +55,8 @@ export const UploadSurveyPhoto = ({project, survey}) => {
                 setFile(null);
                 setPreviewUrl(null);
 
-                // TODO: update project survey photos list
-                // const image_name = JSON.parse(xhr.response);
+                const imageName = JSON.parse(xhr.response);
+                onUploadPhoto(imageName);
 
                 setUploadMessage("Przesłano");
             } else {

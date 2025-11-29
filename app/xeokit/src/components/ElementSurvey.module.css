@@ -7,9 +7,8 @@
     width: 350px;
     max-height: calc(100% - 70px);
     padding: 10px;
-    opacity: 0.8;
     border-radius: 8px;
-    background-color: rgba(0, 0, 0, 1);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .container h4 {

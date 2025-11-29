@@ -1,21 +1,26 @@
+.xeokit-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
 .xeokit_canvas {
     width: 100%;
     height: 100%;
 }
 
-.myNavCubeCanvas {
+.navCubeCanvas {
     position: absolute;
     left: 10px;
     bottom: 40px;
     width: 250px;
+    max-width: 50vw;
     height: 250px;
+    max-height: 50vh;
 }
-
-/*Jak panel byl po prawej to przesuwal sie razem z nim
-.myNavCubeCanvas.picked-element {
-    right: 360px;
-}
-*/
 
 .elementInfo {
     font-family: Arial, sans-serif;
