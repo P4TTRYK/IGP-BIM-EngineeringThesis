@@ -9,7 +9,6 @@ import {ElementSurvey} from "./ElementSurvey.jsx";
 export function Xeokit({model, survey, project, treeViewRef}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
-    const treeViewRef = useRef(null);
     const markersRef = useRef(null);
     const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
