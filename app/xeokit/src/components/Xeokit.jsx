@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from "react";
-import {NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
+import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
 import styles from "./Xeokit.module.css";
 import {ElementSurvey} from "./ElementSurvey.jsx";
 
@@ -10,6 +10,7 @@ export function Xeokit({model, survey, project}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const treeViewRef = useRef(null);
+    const markersRef = useRef(null);
     const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
@@ -38,6 +39,16 @@ export function Xeokit({model, survey, project}) {
             return next;
         });
     };
+
+    // https://github.com/xeokit/xeokit-sdk/pull/1347
+    // https://xeokit.github.io/xeokit-sdk/examples/cad/#OBJ_SportsCar_ExplodeModel
+    function getCenter(aabb) {
+        return [
+            (aabb[0] + aabb[3]) / 2,
+            (aabb[1] + aabb[4]) / 2,
+            (aabb[2] + aabb[5]) / 2,
+        ];
+    }
 
     useEffect(() => {
         if (!model || !canvasRef.current || !navCubeRef.current || !treeViewRef.current) {
@@ -83,9 +94,38 @@ export function Xeokit({model, survey, project}) {
             // }
         });
 
-        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
+        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/annotations/annotations_clickShowLabels.html
+        const annotations = new AnnotationsPlugin(viewer, {
+            markerHTML: "<div class='annotation-marker' style='background-color: {{markerBGColor}};'>{{glyph}}</div>",
+            values: {
+                markerBGColor: "red",
+                glyph: "",
+            },
+            container: markersRef.current
+        });
+
         sceneModel.on("loaded", () => {
+            // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
             viewer.cameraFlight.flyTo(sceneModel);
+
+            surveyData.forEach(change => {
+                const guid = change.guid ?? null;
+                if (!guid || !sceneModel.objects[guid]) return;
+
+                const center = getCenter(sceneModel.objects[guid].aabb);
+
+                annotations.createAnnotation({
+                    id: `a_${guid}`,
+                    entity: viewer.scene.objects[guid],
+                    worldPos: center,
+                    occludable: false,
+                    markerShown: true,
+                    values: {
+                        glyph: guid.slice(0, 2).toUpperCase(),
+                        markerBGColor: "#180a1e",
+                    }
+                });
+            });
         });
 
         // Elements picking
@@ -124,7 +164,6 @@ export function Xeokit({model, survey, project}) {
         viewer.cameraControl.on("picked", handlePicked);
 
         return () => {
-            viewer.cameraControl.off("picked", handlePicked);
             viewer.scene.clear();
             navCube.destroy();
             treeView.destroy();
@@ -134,7 +173,12 @@ export function Xeokit({model, survey, project}) {
     }, [model, project]);
 
     return (
-        <>
+        <div className={styles['xeokit-container']}>
+            <div
+                className={styles.markers}
+                ref={markersRef}
+                id="annotationMarkersContainer"
+            ></div>
             <div className={styles.elementInfo}>
                 {picked ? <>{picked.name} ({picked.type}) / {picked.id}</> : "..."}
             </div>
@@ -145,15 +189,15 @@ export function Xeokit({model, survey, project}) {
                 className={styles.xeokit_canvas}
             />
             <canvas
-                id="myNavCubeCanvas"
+                id="navCubeCanvas"
                 ref={navCubeRef}
-                className={`${styles.myNavCubeCanvas} ${picked ? styles['picked-element'] : ''}`}
+                className={`${styles.navCubeCanvas} ${picked ? styles['picked-element'] : ''}`}
             />
             <div
                 id="treeViewContainer"
                 ref={treeViewRef}
                 className={styles.treeViewContainer}
             ></div>
-        </>
+        </div>
     );
 }

@@ -1,0 +1,16 @@
+.annotation-marker {
+    font-family: "monospace";
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.5em;
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    width: 1.5em;
+    height: 1.5em;
+    text-align: center;
+    pointer-events: none;
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    border-radius: 50%;
+}
