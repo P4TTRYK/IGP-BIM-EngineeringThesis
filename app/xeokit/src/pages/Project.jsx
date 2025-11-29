@@ -4,8 +4,8 @@ import {Xeokit} from "../components/Xeokit.jsx";
 import UI_menu from "../components/UI_menu.jsx";
 import {useProjectListQuery, useProjectModelQuery, useProjectSurveyQuery} from "../services/api.js";
 import styles from "./Project.module.css";
-import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
+import {Icon} from "../components/Icon.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -31,9 +31,9 @@ export const Project = () => {
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
                 <UI_menu>
                     <div
-                        id="treeViewContainer"
+                        id="tree_view_container"
                         ref={treeViewRef}
-                        className={xeokit_styles.treeViewContainer}
+                        className={xeokit_styles['tree-view-container']}
                     ></div>
                 </UI_menu>
             </nav>
@@ -50,8 +50,12 @@ export const Project = () => {
                 </pre>
 
                 {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
-                    <Xeokit model={model} survey={surveyData} project={projectId} treeViewRef={treeViewRef}/>
-                }
+                    <Xeokit
+                        model={model}
+                        survey={surveyData}
+                        project={projectId}
+                        treeViewRef={treeViewRef}
+                    />}
             </div>
         </div>
     );

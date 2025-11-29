@@ -202,25 +202,20 @@ export function Xeokit({model, survey, project, treeViewRef}) {
                 ref={markersRef}
                 id="annotationMarkersContainer"
             ></div>
-            <div className={styles.elementInfo}>
+            <div className={styles['element-info']}>
                 {picked ? <>{picked.name} ({picked.type}) / {picked.id}</> : "..."}
             </div>
             {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}
-                className={styles.xeokit_canvas}
+                className={styles['xeokit-canvas']}
             />
             <canvas
-                id="navCubeCanvas"
+                id="nav_cube_canvas"
                 ref={navCubeRef}
-                className={`${styles.navCubeCanvas} ${picked ? styles['picked-element'] : ''}`}
+                className={`${styles['nav-cube-canvas']} ${picked ? styles['picked-element'] : ''}`}
             />
-            <div
-                id="treeViewContainer"
-                ref={treeViewRef}
-                className={styles.treeViewContainer}
-            ></div>
         </div>
     );
 }
