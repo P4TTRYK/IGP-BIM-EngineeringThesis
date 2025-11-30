@@ -1,11 +1,6 @@
-import ifcopenshell
-
-
-def get_ifc_file_info(file_path):
+def get_ifc_file_info(model):
     try:
-        ifc = ifcopenshell.open(file_path)
-
-        project = ifc.by_type("IfcProject")[0]
+        project = model.by_type("IfcProject")[0]
 
         return {
             "name": project.Name,
