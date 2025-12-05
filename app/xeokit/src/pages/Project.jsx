@@ -7,6 +7,7 @@ import styles from "./Project.module.css";
 import MenuTile from "../components/MenuTile.jsx";
 import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
+import {Icon} from "../components/Icon.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -33,9 +34,9 @@ export const Project = () => {
                 <UI_menu>
                     <div className={styles.tilesRow}>
                         <MenuTile
-                            id="treeViewContainer"
+                            id="tree_view_container"
                             ref={treeViewRef}
-                            className={xeokit_styles.treeViewContainer}
+                            className={xeokit_styles['tree-view-container']}
                         ></MenuTile>
                     </div>
                 </UI_menu>
@@ -53,8 +54,12 @@ export const Project = () => {
                 </pre>
 
                 {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
-                    <Xeokit model={model} survey={surveyData} project={projectId} treeViewRef={treeViewRef}/>
-                }
+                    <Xeokit
+                        model={model}
+                        survey={surveyData}
+                        project={projectId}
+                        treeViewRef={treeViewRef}
+                    />}
             </div>
         </div>
     );

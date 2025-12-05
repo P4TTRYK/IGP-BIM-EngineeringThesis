@@ -13,6 +13,7 @@
     overflow: hidden;
     width: 150px;
     height: 150px;
+    cursor: pointer;
     border: 1px solid var(--subtle-color);
     border-radius: 4px;
     background-color: var(--background-color);

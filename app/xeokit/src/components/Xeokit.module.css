@@ -1,23 +1,28 @@
-.xeokit_canvas {
+.xeokit-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
     width: 100%;
     height: 100%;
 }
 
-.myNavCubeCanvas {
+.xeokit-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.nav-cube-canvas {
     position: absolute;
-    left: 10px;
     bottom: 40px;
+    left: 10px;
     width: 250px;
+    max-width: 50vw;
     height: 250px;
+    max-height: 50vh;
 }
 
-/*Jak panel byl po prawej to przesuwal sie razem z nim
-.myNavCubeCanvas.picked-element {
-    right: 360px;
-}
-*/
-
-.elementInfo {
+.element-info {
     font-family: Arial, sans-serif;
     font-size: 14px;
     position: absolute;
@@ -32,17 +37,17 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.treeViewContainer ul {
+.tree-view-container ul {
     list-style: none;
 }
 
-.treeViewContainer ul li {
+.tree-view-container ul li {
     position: relative;
     padding-top: 3px;
     padding-bottom: 3px;
 }
 
-.treeViewContainer ul li a {
+.tree-view-container ul li a {
     position: absolute;
     left: -1.5em;
     display: inline-block;
@@ -56,22 +61,22 @@
     background-color: #eeeeee;
 }
 
-.treeViewContainer ul li a.plus {
+.tree-view-container ul li a.plus {
     pointer-events: all;
     background-color: #ddeedd;
 }
 
-.treeViewContainer ul li a.minus {
+.tree-view-container ul li a.minus {
     pointer-events: all;
     background-color: #eeeeee;
 }
 
-.treeViewContainer ul li a:active {
+.tree-view-container ul li a:active {
     top: 1px;
     pointer-events: all;
 }
 
-.treeViewContainer ul li span:hover {
+.tree-view-container ul li span:hover {
     padding-left: 2px;
     cursor: pointer;
     pointer-events: all;
@@ -79,7 +84,7 @@
     background: black;
 }
 
-.treeViewContainer ul li span {
+.tree-view-container ul li span {
     /*display: inline-block;*/
     width: calc(100% - 50px);
     height: 23px;
@@ -87,7 +92,7 @@
     pointer-events: all;
 }
 
-.treeViewContainer .highlighted-node {
+.tree-view-container .highlighted-node {
     padding-right: 5px;
     padding-left: 1px;
     pointer-events: all;

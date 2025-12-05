@@ -11,12 +11,14 @@
 .preview-container {
     overflow: hidden;
     width: 100%;
+    margin-top: 1em;
     border: 1px solid var(--subtle-color);
     border-radius: 4px;
     background-color: var(--background-color);
 }
 
 .preview-image {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
