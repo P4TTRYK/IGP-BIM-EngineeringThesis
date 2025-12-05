@@ -9,7 +9,7 @@ export default function UI_menu({children}) {
     };
 
     return (
-        <>
+        <div className={styles.container}>
             <button
                 type="button"
                 aria-expanded={isOpen}
@@ -23,6 +23,6 @@ export default function UI_menu({children}) {
             <div className={`${styles.panel} ${!isOpen && styles.hidden}`}>
                 {children}
             </div>
-        </>
+        </div>
     );
 }

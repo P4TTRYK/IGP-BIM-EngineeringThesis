@@ -7,7 +7,6 @@ import styles from "./Project.module.css";
 import MenuTile from "../components/MenuTile.jsx";
 import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
-import {Icon} from "../components/Icon.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -31,16 +30,22 @@ export const Project = () => {
                     <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
-                <UI_menu>
-                    <div className={styles.tilesRow}>
-                        <MenuTile
-                            id="tree_view_container"
-                            ref={treeViewRef}
-                            className={xeokit_styles['tree-view-container']}
-                        ></MenuTile>
+                <div></div>
+                
+            </nav>
+
+            <UI_menu>
+                    <div className={styles['tiles-row']}>
+                        <MenuTile>
+                            <div
+                                id="tree_view_container"
+                                ref={treeViewRef}
+                                className={xeokit_styles['tree-view-container']}
+                            ></div>
+                            
+                        </MenuTile>
                     </div>
                 </UI_menu>
-            </nav>
 
             <div className={styles['xeokit-container']}>
                 <pre>

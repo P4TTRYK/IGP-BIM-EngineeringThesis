@@ -48,7 +48,7 @@
     height: calc(100% - 50px);
 }
 
-.tilesRow {
+.tiles-row {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
