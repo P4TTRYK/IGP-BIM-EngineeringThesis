@@ -69,6 +69,22 @@ def get_changed_project(project_id):
     )
 
 
+@app.get('/project/<int:project_id>/export_photos')
+def get_changed_project_photos(project_id):
+    project_id = str(project_id)
+
+    code = database.export_project_images(project_id)
+
+    if code != 200:
+        return jsonify("Error"), code
+
+    return send_from_directory(
+        f"./uploads",
+        f"{project_id}_images.zip",
+        as_attachment=False
+    )
+
+
 @app.get('/project/<int:project_id>/changes')
 def get_project_changes_route(project_id):
     db = database.DB()
