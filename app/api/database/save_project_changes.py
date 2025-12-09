@@ -1,6 +1,6 @@
 import sqlite3
 
-from database import get_projects_list
+from .get_projects_list import get_projects_list
 
 
 def save_project_changes(cursor, project_id, changes):

@@ -4,9 +4,10 @@ import uuid
 import ifcopenshell
 
 from database import save_project_changes
-from ifc import get_ifc_file_info, get_survey_data_from_ifc
-from ifc.convert_ifc2xkt import convert_ifc2xkt
-from ifc.generate_thumbnail import generate_thumbnail
+from .convert_ifc2xkt import convert_ifc2xkt
+from .generate_thumbnail import generate_thumbnail
+from .get_ifc_file_info import get_ifc_file_info
+from .get_survey_data_from_ifc import get_survey_data_from_ifc
 
 
 def import_ifc_project(db_cursor, file):
