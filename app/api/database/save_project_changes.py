@@ -3,7 +3,7 @@ import sqlite3
 from database import get_projects_list
 
 
-def save_proj_changes(cursor, project_id, changes):
+def save_project_changes(cursor, project_id, changes):
     try:
         guid = changes['guid']  # text
         metadata = changes['metadata']  # json as text

@@ -3,7 +3,7 @@ import uuid
 
 import ifcopenshell
 
-from database import save_proj_changes
+from database import save_project_changes
 from ifc import get_ifc_file_info, get_survey_data_from_ifc
 from ifc.convert_ifc2xkt import convert_ifc2xkt
 from ifc.generate_thumbnail import generate_thumbnail
@@ -47,7 +47,7 @@ def import_ifc_project(db_cursor, file):
     changes = get_survey_data_from_ifc(model)
 
     for change in changes:
-        save_proj_changes(
+        save_project_changes(
             cursor=db_cursor,
             project_id=str(project_id),
             changes={

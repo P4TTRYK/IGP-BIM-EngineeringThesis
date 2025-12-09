@@ -4,7 +4,8 @@ from PIL import Image
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
-from database import DB, get_projects_list, get_proj_changes, save_proj_changes, save_survey_photo
+from database import DB, get_projects_list, get_project_changes, save_project_changes, save_survey_photo, \
+    export_project_images
 from ifc import import_ifc_project, export_ifc_changes
 
 app = Flask(__name__)
@@ -45,7 +46,7 @@ def get_changed_project(project_id):
     project_id = str(project_id)
 
     db = DB()
-    changes, code = get_proj_changes(db.cursor, project_id)
+    changes, code = get_project_changes(db.cursor, project_id)
     db.connection.close()
 
     if code != 200:
@@ -72,7 +73,7 @@ def get_changed_project(project_id):
 @app.get('/project/<int:project_id>/changes')
 def get_project_changes(project_id):
     db = DB()
-    changes, code = get_proj_changes(db.cursor, str(project_id))
+    changes, code = get_project_changes(db.cursor, str(project_id))
     db.connection.close()
 
     return jsonify(changes), code
@@ -81,7 +82,7 @@ def get_project_changes(project_id):
 @app.post('/project/<int:project_id>/changes')
 def save_project_changes(project_id):
     db = DB()
-    result, code = save_proj_changes(db.cursor, str(project_id), request.form)
+    result, code = save_project_changes(db.cursor, str(project_id), request.form)
     db.connection.commit()
     db.connection.close()
 

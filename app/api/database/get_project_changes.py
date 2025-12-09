@@ -1,7 +1,7 @@
 import sqlite3
 
 
-def get_proj_changes(cursor, project_id):
+def get_project_changes(cursor, project_id):
     try:
         cursor.execute("""
                        SELECT s.guid,
