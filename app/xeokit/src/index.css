@@ -24,3 +24,7 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.leaflet-container {
+    height: 100%;
+}

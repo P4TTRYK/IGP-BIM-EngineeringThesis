@@ -6,6 +6,7 @@ import {useProjectListQuery, useProjectModelQuery, useProjectSurveyQuery} from "
 import styles from "./Project.module.css";
 import xeokit_styles from "../components/Xeokit.module.css";
 import {Icon} from "../components/Icon.jsx";
+import {ProjectMapLocation} from "../components/ProjectMapLocation.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -22,6 +23,8 @@ export const Project = () => {
         }
     }
 
+    const projectLocation = JSON.parse(projectInfo.location ?? "[0,0]");
+
     return (
         <div className={styles.projectContainer}>
             <nav className={styles['top-bar']}>
@@ -37,6 +40,18 @@ export const Project = () => {
                     ></div>
                 </UI_menu>
             </nav>
+
+            <div className={styles['project-info']}>
+                {(projectLocation[0] !== 0 || projectLocation[1] !== 0) ? (
+                    <>
+                        <div className={styles['map-location']}>
+                            <ProjectMapLocation
+                                location={[projectLocation[1], projectLocation[0]]}
+                            />
+                        </div>
+                    </>
+                ) : (<span>Brak informacji o lokalizacji</span>)}
+            </div>
 
             <div className={styles['xeokit-container']}>
                 <pre>
