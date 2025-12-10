@@ -34,7 +34,14 @@ export const api = createApi({
                     body: formSurveyData,
                 };
             },
-        })
+        }),
+        projectWeather: build.query({
+            query(project) {
+                return {
+                    url: `/project/${project}/weather`,
+                };
+            }
+        }),
     }),
 });
 
@@ -43,4 +50,5 @@ export const {
     useProjectListQuery,
     useProjectSurveyQuery,
     useUpdateSurveyMutation,
+    useProjectWeatherQuery,
 } = api;

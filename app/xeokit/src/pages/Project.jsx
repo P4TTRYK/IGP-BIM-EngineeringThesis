@@ -7,6 +7,7 @@ import styles from "./Project.module.css";
 import xeokit_styles from "../components/Xeokit.module.css";
 import {Icon} from "../components/Icon.jsx";
 import {ProjectMapLocation} from "../components/ProjectMapLocation.jsx";
+import {ProjectLocationWeather} from "../components/ProjectLocationWeather.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -49,6 +50,8 @@ export const Project = () => {
                                 location={[projectLocation[1], projectLocation[0]]}
                             />
                         </div>
+
+                        <ProjectLocationWeather project={projectId}/>
                     </>
                 ) : (<span>Brak informacji o lokalizacji</span>)}
             </div>

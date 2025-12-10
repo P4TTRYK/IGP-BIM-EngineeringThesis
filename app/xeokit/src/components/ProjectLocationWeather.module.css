@@ -1,0 +1,19 @@
+.location-weather {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 150px;
+    padding: 10px;
+    text-align: center;
+    color: var(--text-color);
+    border-radius: 8px;
+    background: var(--subtle-color);
+}
+
+.location-weather > img {
+    width: 6rem;
+    height: 6rem;
+    margin: -1rem;
+    filter: drop-shadow(0 0 2px var(--text-color));
+}
