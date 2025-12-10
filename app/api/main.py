@@ -207,3 +207,12 @@ def post_survey_image(project_id, guid):
         return jsonify("Cannot process ifc file"), 500
 
     return jsonify(result), code
+
+
+@app.get('/project/<int:project_id>/weather')
+def get_project_weather(project_id):
+    db = database.DB()
+    result, code = database.get_project_weather(cursor=db.cursor, project_id=project_id)
+    db.connection.close()
+
+    return jsonify(result), code
