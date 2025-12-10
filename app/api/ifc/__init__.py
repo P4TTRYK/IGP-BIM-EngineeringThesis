@@ -1,4 +1,5 @@
 from .export_ifc_changes import export_ifc_changes
 from .get_ifc_file_info import get_ifc_file_info
+from .get_project_location import get_project_location
 from .get_survey_data_from_ifc import get_survey_data_from_ifc
 from .import_ifc import import_ifc_project

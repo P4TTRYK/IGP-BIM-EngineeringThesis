@@ -23,10 +23,6 @@ def export_ifc_changes(changes, ifc_file, output_file):
     for change in changes:
         guid = change.get('guid', None)
         metadata = change.get('metadata', '')
-        # photos = change.get('photos', '') # save separately
-        update_time = change.get('update_time', None)
-
-        print(guid, metadata, update_time)
 
         if guid is None:
             continue

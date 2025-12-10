@@ -7,6 +7,7 @@ from database import save_project_changes
 from .convert_ifc2xkt import convert_ifc2xkt
 from .generate_thumbnail import generate_thumbnail
 from .get_ifc_file_info import get_ifc_file_info
+from .get_project_location import get_project_location
 from .get_survey_data_from_ifc import get_survey_data_from_ifc
 
 
@@ -29,16 +30,18 @@ def import_ifc_project(db_cursor, file):
     project_guid = ifc_info["guid"]
     project_name = ifc_info["name"]
     project_description = ifc_info["description"]
+    project_location = get_project_location(model)
 
     db_cursor.execute(
         """
-        INSERT INTO projects (guid, name, description)
-        VALUES (?, ?, ?)
+        INSERT INTO projects (guid, name, description, location)
+        VALUES (?, ?, ?, ?)
         """,
         (
             project_guid,
             project_name,
             project_description,
+            project_location,
         )
     )
 

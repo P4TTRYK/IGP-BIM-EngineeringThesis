@@ -10,6 +10,7 @@ def get_projects_list(cursor):
                               p.description,
                               p.created_at,
                               p.updated_at,
+                              p.location,
                               COUNT(DISTINCT s.id) AS changes, -- multiple photos per survey
                               COUNT(ph.id)         AS photos
                        FROM projects p
