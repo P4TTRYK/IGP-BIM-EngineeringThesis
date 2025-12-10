@@ -5,7 +5,7 @@ import requests
 from .get_projects_list import get_projects_list
 
 # REPLACE WITH YOUR OWN OPENWEATHER API KEY
-OPENWEATHER_API_KEY = '41372eb963e83b0d1ab34c18cc75502b'
+OPENWEATHER_API_KEY = ''
 
 
 def get_project_weather(cursor, project_id):
