@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Link, useParams} from "react-router";
 import {Xeokit} from "../components/Xeokit.jsx";
 import UI_menu from "../components/UI_menu.jsx";
@@ -9,6 +9,7 @@ import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
 import {ProjectMapLocation} from "../components/ProjectMapLocation.jsx";
 import {ProjectLocationWeather} from "../components/ProjectLocationWeather.jsx";
+import {ElementSurvey} from "../components/ElementSurvey.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -18,10 +19,27 @@ export const Project = () => {
     const {data: projectsList} = useProjectListQuery();
 
     const [measurement, setMeasurement] = useState(false);
+    const [picked, setPicked] = useState(null);
+    const [localSurveyData, setLocalSurveyData] = useState([]);
+    const [newSurveyData, setNewSurveyData] = useState([]);
+
+    useEffect(() => {
+        setLocalSurveyData(surveyData || []);
+    }, [surveyData]);
 
     const handleMeasurement = () => {
         setMeasurement((prev) => !prev);
     }
+
+    const handleUpdateSurvey = (newSurvey) => {
+        setLocalSurveyData((prev) => {
+            const next = prev.filter((s) => s.guid !== newSurvey.guid);
+            next.push(newSurvey);
+            return next;
+        });
+
+        setNewSurveyData(newSurvey);
+    };
 
     let projectInfo = {};
     if (projectsList && projectsList.length > 0) {
@@ -85,10 +103,12 @@ export const Project = () => {
                 {(!fetchingModel && !errorModel && model) && (!fetchingSurveyData && !errorSurveyData && surveyData) &&
                     <Xeokit
                         model={model}
-                        survey={surveyData}
+                        survey={localSurveyData}
                         project={projectId}
                         treeViewRef={treeViewRef}
                         measurement={measurement}
+                        onPicked={setPicked}
+                        newSurvey={newSurveyData}
                     />}
             </div>
         </div>

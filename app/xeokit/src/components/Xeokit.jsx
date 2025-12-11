@@ -9,16 +9,14 @@ import {
     XKTLoaderPlugin
 } from "@xeokit/xeokit-sdk";
 import styles from "./Xeokit.module.css";
-import {ElementSurvey} from "./ElementSurvey.jsx";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project, treeViewRef, measurement}) {
+export function Xeokit({model, survey, project, treeViewRef, measurement, onPicked, newSurvey}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
-    const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
     const viewerRef = useRef(null);
@@ -34,10 +32,10 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
 
     const handlePick = (metaObject) => {
         if (!metaObject) {
-            setPicked(null);
+            onPicked(null);
             return;
         }
-        setPicked({
+        onPicked({
             project,
             id: metaObject.id,
             type: metaObject.type,
@@ -56,6 +54,10 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
             }
         }
     }, [measurement]);
+
+    useEffect(() => {
+        createAnnotationForSurvey(newSurvey);
+    }, [newSurvey]);
 
     const createAnnotationForSurvey = (surveyItem) => {
         if (!sceneModelRef.current || !viewerRef.current || !annotationsRef.current) return;
@@ -82,16 +84,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
                 markerBGColor: "#180a1e",
             }
         });
-    };
-
-    const handleUpdateSurvey = (newSurvey) => {
-        setSurveyData((prev) => {
-            const next = prev.filter((s) => s.guid !== newSurvey.guid);
-            next.push(newSurvey);
-            return next;
-        });
-
-        createAnnotationForSurvey(newSurvey);
     };
 
     // https://github.com/xeokit/xeokit-sdk/pull/1347
@@ -233,7 +225,7 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
             viewerRef.current = null;
             sceneModelRef.current = null;
             annotationsRef.current = null;
-            setPicked(null);
+            onPicked(null);
             distanceMeasurementsPlugin.clear();
             distanceMeasurementsMouseControl.destroy();
         };
@@ -245,10 +237,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
                 ref={markersRef}
                 id="annotationMarkersContainer"
             ></div>
-            <div className={styles['element-info']}>
-                {picked ? <>{picked.name} ({picked.type}) / {picked.id}</> : "..."}
-            </div>
-            {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}
@@ -257,7 +245,7 @@ export function Xeokit({model, survey, project, treeViewRef, measurement}) {
             <canvas
                 id="nav_cube_canvas"
                 ref={navCubeRef}
-                className={`${styles['nav-cube-canvas']} ${picked ? styles['picked-element'] : ''}`}
+                className={styles['nav-cube-canvas']}
             />
         </div>
     );
