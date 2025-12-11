@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {Link, useParams} from "react-router";
 import {Xeokit} from "../components/Xeokit.jsx";
 import UI_menu from "../components/UI_menu.jsx";
@@ -14,6 +14,12 @@ export const Project = () => {
     const {data: model, isFetching: fetchingModel, error: errorModel} = useProjectModelQuery(projectId);
     const {data: surveyData, isFetching: fetchingSurveyData, error: errorSurveyData} = useProjectSurveyQuery(projectId);
     const {data: projectsList} = useProjectListQuery();
+
+    const [measurement, setMeasurement] = useState(false);
+
+    const handleMeasurement = () => {
+        setMeasurement((prev) => !prev);
+    }
 
     let projectInfo = {};
     if (projectsList && projectsList.length > 0) {
@@ -31,21 +37,21 @@ export const Project = () => {
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
                 <div></div>
-                
             </nav>
 
+            <div
+                id="tree_view_container"
+                ref={treeViewRef}
+                className={xeokit_styles['tree-view-container']}
+            ></div>
+
             <UI_menu>
-                    <div className={styles['tiles-row']}>
-                        <MenuTile>
-                            <div
-                                id="tree_view_container"
-                                ref={treeViewRef}
-                                className={xeokit_styles['tree-view-container']}
-                            ></div>
-                            
-                        </MenuTile>
-                    </div>
-                </UI_menu>
+                <MenuTile
+                    icon={<Icon.distance_measurement/>}
+                    onClick={handleMeasurement}
+                    enabled={measurement}
+                />
+            </UI_menu>
 
             <div className={styles['xeokit-container']}>
                 <pre>
@@ -64,6 +70,7 @@ export const Project = () => {
                         survey={surveyData}
                         project={projectId}
                         treeViewRef={treeViewRef}
+                        measurement={measurement}
                     />}
             </div>
         </div>

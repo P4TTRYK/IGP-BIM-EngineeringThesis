@@ -1,13 +1,11 @@
 import styles from "./MenuTile.module.css";
 
-export default function MenuTile({children,icon: IconSVG, label, onClick }) {
+export default function MenuTile({children, icon, label, enabled, onClick}) {
     return (
-        <button className={styles.tile} onClick={onClick}>
+        <button className={`${styles.tile} ${enabled ? styles.enabled : ''}`} onClick={onClick}>
             {children}
-            <div className={styles.iconBox}>
-                {IconSVG && <IconSVG />}
-            </div>
-            <span className={styles.label}>{label}</span>
+            {icon}
+            {label}
         </button>
     );
 }
