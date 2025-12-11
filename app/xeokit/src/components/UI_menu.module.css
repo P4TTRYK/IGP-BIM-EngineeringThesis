@@ -2,7 +2,7 @@
     position: absolute;
     z-index: 1000000;
     top: 60px;
-    left: 20px;
+    left: 270px;
     display: flex;
     align-items: flex-end;
     flex-direction: column;
@@ -48,7 +48,7 @@
 
 .panel {
     position: absolute;
-    top: 60px;
+    top: 55px;
     left: 2px;
     display: flex;
     flex-direction: column;
