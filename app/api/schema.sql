@@ -5,7 +5,8 @@ create table if not exists projects
     name        text not null,
     description text,
     created_at  datetime default current_timestamp,
-    updated_at  datetime default current_timestamp
+    updated_at  datetime default current_timestamp,
+    location    text
 );
 
 create trigger if not exists update_project_updated_at

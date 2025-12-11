@@ -7,6 +7,8 @@ import styles from "./Project.module.css";
 import MenuTile from "../components/MenuTile.jsx";
 import {Icon} from "../components/Icon.jsx";
 import xeokit_styles from "../components/Xeokit.module.css";
+import {ProjectMapLocation} from "../components/ProjectMapLocation.jsx";
+import {ProjectLocationWeather} from "../components/ProjectLocationWeather.jsx";
 
 export const Project = () => {
     const {projectId} = useParams();
@@ -29,6 +31,8 @@ export const Project = () => {
         }
     }
 
+    const projectLocation = JSON.parse(projectInfo.location ?? "[0,0]");
+
     return (
         <div className={styles.projectContainer}>
             <nav className={styles['top-bar']}>
@@ -38,6 +42,20 @@ export const Project = () => {
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
                 <div></div>
             </nav>
+
+            <div className={styles['project-info']}>
+                {(projectLocation[0] !== 0 || projectLocation[1] !== 0) ? (
+                    <>
+                        <div className={styles['map-location']}>
+                            <ProjectMapLocation
+                                location={[projectLocation[1], projectLocation[0]]}
+                            />
+                        </div>
+
+                        <ProjectLocationWeather project={projectId}/>
+                    </>
+                ) : (<span>Brak informacji o lokalizacji</span>)}
+            </div>
 
             <div
                 id="tree_view_container"

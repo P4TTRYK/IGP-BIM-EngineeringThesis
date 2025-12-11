@@ -3,7 +3,7 @@ import uuid
 
 from PIL import Image, ImageOps
 
-from database import get_projects_list
+from .get_projects_list import get_projects_list
 
 
 def save_survey_photo(cursor, file, file_format, project_id, guid):

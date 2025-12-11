@@ -57,14 +57,33 @@ export const ProjectCard = ({project, style = {}}) => {
                     Zdjęć: {photos ?? 'N/A'}
                 </span>
             </p>
-            <a
-                data-title="Pobierz zmieniony model IFC"
-                className={styles.download}
-                href={`${import.meta.env.VITE_API_SERVER}/project/${id}/export`}
-                onClick={(e) => e.stopPropagation()}
-            >
+
+            <div className={styles["download-project"]}>
                 <Icon.download/>
-            </a>
+                <a
+                    data-title="Pobierz zmieniony model IFC"
+                    href={`${import.meta.env.VITE_API_SERVER}/project/${id}/export`}
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <Icon.model/>
+                </a>
+                {photos ?
+                    <a
+                        data-title="Pobierz zdjęcia projektu"
+                        href={`${import.meta.env.VITE_API_SERVER}/project/${id}/export_photos`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <Icon.image/>
+                    </a>
+                    :
+                    <a
+                        data-title="Brak zdjęć"
+                        className={styles['no-photo-link']}
+                    >
+                        <Icon.no_image/>
+                    </a>
+                }
+            </div>
         </div>
     );
 }

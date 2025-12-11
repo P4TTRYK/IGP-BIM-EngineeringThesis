@@ -4,12 +4,12 @@ from PIL import Image
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 
-from database import DB, get_projects_list, get_proj_changes, save_proj_changes, save_survey_photo
+import database
 from ifc import import_ifc_project, export_ifc_changes
 
 app = Flask(__name__)
 cors = CORS(app)
-DB().init_db()
+database.DB().init_db()
 
 ACCEPTED_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'webp']
 INVALID_FILE_RESPONSE = "Invalid file", 400
@@ -24,8 +24,8 @@ def index():
 
 @app.get('/projects')
 def get_projects():
-    db = DB()
-    projects, code = get_projects_list(db.cursor)
+    db = database.DB()
+    projects, code = database.get_projects_list(db.cursor)
     db.connection.close()
 
     return jsonify(projects), code
@@ -44,8 +44,8 @@ def get_project_image(project_id):
 def get_changed_project(project_id):
     project_id = str(project_id)
 
-    db = DB()
-    changes, code = get_proj_changes(db.cursor, project_id)
+    db = database.DB()
+    changes, code = database.get_project_changes(db.cursor, project_id)
     db.connection.close()
 
     if code != 200:
@@ -69,19 +69,35 @@ def get_changed_project(project_id):
     )
 
 
+@app.get('/project/<int:project_id>/export_photos')
+def get_changed_project_photos(project_id):
+    project_id = str(project_id)
+
+    code = database.export_project_images(project_id)
+
+    if code != 200:
+        return jsonify("Error"), code
+
+    return send_from_directory(
+        f"./uploads",
+        f"{project_id}_images.zip",
+        as_attachment=False
+    )
+
+
 @app.get('/project/<int:project_id>/changes')
-def get_project_changes(project_id):
-    db = DB()
-    changes, code = get_proj_changes(db.cursor, str(project_id))
+def get_project_changes_route(project_id):
+    db = database.DB()
+    changes, code = database.get_project_changes(db.cursor, str(project_id))
     db.connection.close()
 
     return jsonify(changes), code
 
 
 @app.post('/project/<int:project_id>/changes')
-def save_project_changes(project_id):
-    db = DB()
-    result, code = save_proj_changes(db.cursor, str(project_id), request.form)
+def save_project_changes_route(project_id):
+    db = database.DB()
+    result, code = database.save_project_changes(db.cursor, str(project_id), request.form)
     db.connection.commit()
     db.connection.close()
 
@@ -101,7 +117,7 @@ def upload_ifc():
     ):
         return INVALID_FILE_RESPONSE
 
-    db = DB()
+    db = database.DB()
     result = import_ifc_project(db.cursor, file)
     db.connection.commit()
     db.connection.close()
@@ -176,8 +192,8 @@ def post_survey_image(project_id, guid):
     except Exception:
         return INVALID_FILE_RESPONSE
 
-    db = DB()
-    result, code = save_survey_photo(
+    db = database.DB()
+    result, code = database.save_survey_photo(
         cursor=db.cursor,
         file=file,
         file_format=file_format,
@@ -189,5 +205,14 @@ def post_survey_image(project_id, guid):
 
     if result is None:
         return jsonify("Cannot process ifc file"), 500
+
+    return jsonify(result), code
+
+
+@app.get('/project/<int:project_id>/weather')
+def get_project_weather(project_id):
+    db = database.DB()
+    result, code = database.get_project_weather(cursor=db.cursor, project_id=project_id)
+    db.connection.close()
 
     return jsonify(result), code
