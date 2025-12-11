@@ -1,12 +1,20 @@
 import {useEffect, useRef, useState} from "react";
-import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
+import {
+    AnnotationsPlugin,
+    DistanceMeasurementsMouseControl,
+    DistanceMeasurementsPlugin,
+    NavCubePlugin,
+    TreeViewPlugin,
+    Viewer,
+    XKTLoaderPlugin
+} from "@xeokit/xeokit-sdk";
 import styles from "./Xeokit.module.css";
 import {ElementSurvey} from "./ElementSurvey.jsx";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project, treeViewRef}) {
+export function Xeokit({model, survey, project, treeViewRef, measurement}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
@@ -16,6 +24,9 @@ export function Xeokit({model, survey, project, treeViewRef}) {
     const viewerRef = useRef(null);
     const sceneModelRef = useRef(null);
     const annotationsRef = useRef(null);
+
+    const clearMeasurementRef = useRef(null);
+    const enableMeasurementRef = useRef(null);
 
     useEffect(() => {
         setSurveyData(survey || []);
@@ -34,6 +45,17 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             psets: metaObject.propertySets
         });
     };
+
+    useEffect(() => {
+        if (enableMeasurementRef.current && clearMeasurementRef.current) {
+            if (measurement) {
+                enableMeasurementRef.current.activate();
+            } else {
+                clearMeasurementRef.current.clear();
+                enableMeasurementRef.current.deactivate();
+            }
+        }
+    }, [measurement]);
 
     const createAnnotationForSurvey = (surveyItem) => {
         if (!sceneModelRef.current || !viewerRef.current || !annotationsRef.current) return;
@@ -142,7 +164,7 @@ export function Xeokit({model, survey, project, treeViewRef}) {
 
         sceneModel.on("loaded", () => {
             // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
-            viewer.cameraFlight.flyTo(sceneModel);
+            viewer.cameraFlight.jumpTo(sceneModel);
 
             surveyData.forEach((change) => {
                 createAnnotationForSurvey(change);
@@ -184,6 +206,25 @@ export function Xeokit({model, survey, project, treeViewRef}) {
 
         viewer.cameraControl.on("picked", handlePicked);
 
+        // Measurement plugin
+        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/measurement/distance_createWithMouse_snapping.html
+        const distanceMeasurementsPlugin = new DistanceMeasurementsPlugin(viewer);
+        clearMeasurementRef.current = distanceMeasurementsPlugin;
+
+        distanceMeasurementsPlugin.on("measurementStart", () => {
+        });
+        distanceMeasurementsPlugin.on("measurementEnd", () => {
+        });
+        distanceMeasurementsPlugin.on("measurementCancel", () => {
+        });
+
+        const distanceMeasurementsMouseControl = new DistanceMeasurementsMouseControl(distanceMeasurementsPlugin, {
+            pointerLens: null,
+            snapping: true,
+        })
+
+        enableMeasurementRef.current = distanceMeasurementsMouseControl;
+
         return () => {
             viewer.scene.clear();
             navCube.destroy();
@@ -193,6 +234,8 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             sceneModelRef.current = null;
             annotationsRef.current = null;
             setPicked(null);
+            distanceMeasurementsPlugin.clear();
+            distanceMeasurementsMouseControl.destroy();
         };
     }, [model, project]);
 
