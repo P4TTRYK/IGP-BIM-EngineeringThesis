@@ -19,6 +19,7 @@ export const Project = () => {
     const {data: projectsList} = useProjectListQuery();
 
     const [measurement, setMeasurement] = useState(false);
+    const [angleMeasurement, setAngleMeasurement] = useState(false);
     const [picked, setPicked] = useState(null);
     const [localSurveyData, setLocalSurveyData] = useState([]);
     const [newSurveyData, setNewSurveyData] = useState([]);
@@ -29,6 +30,10 @@ export const Project = () => {
 
     const handleMeasurement = () => {
         setMeasurement((prev) => !prev);
+    }
+
+    const handleAngleMeasurement = () => {
+        setAngleMeasurement((prev) => !prev);
     }
 
     const handleUpdateSurvey = (newSurvey) => {
@@ -86,7 +91,11 @@ export const Project = () => {
                     icon={<Icon.distance_measurement/>}
                     onClick={handleMeasurement}
                     enabled={measurement}
-
+                />
+                <MenuTile
+                    icon={<Icon.angle_measurement/>}
+                    onClick={handleAngleMeasurement}
+                    enabled={angleMeasurement}
                 />
             </UI_menu>
 
@@ -108,6 +117,7 @@ export const Project = () => {
                         project={projectId}
                         treeViewRef={treeViewRef}
                         measurement={measurement}
+                        angleMeasurement={angleMeasurement}
                         onPicked={setPicked}
                         newSurvey={newSurveyData}
                     />}

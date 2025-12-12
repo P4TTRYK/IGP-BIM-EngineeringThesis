@@ -7,12 +7,13 @@ import {
     XKTLoaderPlugin
 } from "@xeokit/xeokit-sdk";
 import { DistanceMeasurements } from "./DistanceMeasurements";
+import { AngleMeasurements } from "./AngleMeasurements";
 import styles from "./Xeokit.module.css";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project, treeViewRef, measurement, onPicked, newSurvey}) {
+export function Xeokit({model, survey, project, treeViewRef, measurement, angleMeasurement, onPicked, newSurvey}) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
@@ -212,6 +213,7 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
                 className={styles['nav-cube-canvas']}
             />
             <DistanceMeasurements viewer={viewerRef.current} measurement={measurement} />
+            <AngleMeasurements viewer={viewerRef.current} angleMeasurement={angleMeasurement} />
         </div>
     );
 }
