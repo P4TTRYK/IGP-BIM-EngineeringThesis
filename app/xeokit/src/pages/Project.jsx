@@ -68,7 +68,13 @@ export const Project = () => {
                     <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
-                <div></div>
+                <UI_menu>
+                    <div
+                        id="tree_view_container"
+                        ref={treeViewRef}
+                        className={xeokit_styles['tree-view-container']}
+                    ></div>
+                </UI_menu>
             </nav>
 
             <div className={styles['project-info']}>
@@ -84,12 +90,6 @@ export const Project = () => {
                     </>
                 ) : (<span>Brak informacji o lokalizacji</span>)}
             </div>
-
-            <div
-                id="tree_view_container"
-                ref={treeViewRef}
-                className={xeokit_styles['tree-view-container']}
-            ></div>
 
             <UI_menu>
                 <MenuTile
