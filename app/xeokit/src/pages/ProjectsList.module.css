@@ -5,6 +5,7 @@
     padding: 20px 40px;
     gap: 2em;
     background-color: var(--subtle-color);
+    color: var(--text-color)
 }
 
 .project-list {

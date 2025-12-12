@@ -1,13 +1,12 @@
 import {useEffect, useRef, useState} from "react";
 import {
     AnnotationsPlugin,
-    DistanceMeasurementsMouseControl,
-    DistanceMeasurementsPlugin,
     NavCubePlugin,
     TreeViewPlugin,
     Viewer,
     XKTLoaderPlugin
 } from "@xeokit/xeokit-sdk";
+import { DistanceMeasurements } from "./DistanceMeasurements";
 import styles from "./Xeokit.module.css";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
@@ -22,9 +21,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
     const viewerRef = useRef(null);
     const sceneModelRef = useRef(null);
     const annotationsRef = useRef(null);
-
-    const clearMeasurementRef = useRef(null);
-    const enableMeasurementRef = useRef(null);
 
     useEffect(() => {
         setSurveyData(survey || []);
@@ -43,17 +39,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
             psets: metaObject.propertySets
         });
     };
-
-    useEffect(() => {
-        if (enableMeasurementRef.current && clearMeasurementRef.current) {
-            if (measurement) {
-                enableMeasurementRef.current.activate();
-            } else {
-                clearMeasurementRef.current.clear();
-                enableMeasurementRef.current.deactivate();
-            }
-        }
-    }, [measurement]);
 
     useEffect(() => {
         createAnnotationForSurvey(newSurvey);
@@ -198,25 +183,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
 
         viewer.cameraControl.on("picked", handlePicked);
 
-        // Measurement plugin
-        // https://github.com/xeokit/xeokit-sdk/blob/master/examples/measurement/distance_createWithMouse_snapping.html
-        const distanceMeasurementsPlugin = new DistanceMeasurementsPlugin(viewer);
-        clearMeasurementRef.current = distanceMeasurementsPlugin;
-
-        distanceMeasurementsPlugin.on("measurementStart", () => {
-        });
-        distanceMeasurementsPlugin.on("measurementEnd", () => {
-        });
-        distanceMeasurementsPlugin.on("measurementCancel", () => {
-        });
-
-        const distanceMeasurementsMouseControl = new DistanceMeasurementsMouseControl(distanceMeasurementsPlugin, {
-            pointerLens: null,
-            snapping: true,
-        })
-
-        enableMeasurementRef.current = distanceMeasurementsMouseControl;
-
         return () => {
             viewer.scene.clear();
             navCube.destroy();
@@ -226,8 +192,6 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
             sceneModelRef.current = null;
             annotationsRef.current = null;
             onPicked(null);
-            distanceMeasurementsPlugin.clear();
-            distanceMeasurementsMouseControl.destroy();
         };
     }, [model, project]);
 
@@ -247,6 +211,7 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, onPick
                 ref={navCubeRef}
                 className={styles['nav-cube-canvas']}
             />
+            <DistanceMeasurements viewer={viewerRef.current} measurement={measurement} />
         </div>
     );
 }

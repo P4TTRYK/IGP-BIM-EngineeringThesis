@@ -86,6 +86,7 @@ export const Project = () => {
                     icon={<Icon.distance_measurement/>}
                     onClick={handleMeasurement}
                     enabled={measurement}
+
                 />
             </UI_menu>
 
