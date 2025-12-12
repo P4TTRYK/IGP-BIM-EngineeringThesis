@@ -8,6 +8,7 @@ import {
 } from "@xeokit/xeokit-sdk";
 import { DistanceMeasurements } from "./DistanceMeasurements";
 import { AngleMeasurements } from "./AngleMeasurements";
+//import { PolygonArea } from "./PolygonArea";
 import styles from "./Xeokit.module.css";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
@@ -214,6 +215,7 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, angleM
             />
             <DistanceMeasurements viewer={viewerRef.current} measurement={measurement} />
             <AngleMeasurements viewer={viewerRef.current} angleMeasurement={angleMeasurement} />
+            {/*<PolygonArea viewer={viewerRef.current} polygonArea={polygonArea} /> */}
         </div>
     );
 }

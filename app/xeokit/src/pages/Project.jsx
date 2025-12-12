@@ -20,6 +20,7 @@ export const Project = () => {
 
     const [measurement, setMeasurement] = useState(false);
     const [angleMeasurement, setAngleMeasurement] = useState(false);
+    const [polygonArea, setPolygonArea] = useState(false);
     const [picked, setPicked] = useState(null);
     const [localSurveyData, setLocalSurveyData] = useState([]);
     const [newSurveyData, setNewSurveyData] = useState([]);
@@ -34,6 +35,10 @@ export const Project = () => {
 
     const handleAngleMeasurement = () => {
         setAngleMeasurement((prev) => !prev);
+    }
+
+    const handlePolygonArea = () => {
+        setPolygonArea((prev) => !prev);
     }
 
     const handleUpdateSurvey = (newSurvey) => {
@@ -97,6 +102,11 @@ export const Project = () => {
                     onClick={handleAngleMeasurement}
                     enabled={angleMeasurement}
                 />
+                <MenuTile
+                    icon={<Icon.polygon_area/>}
+                    onClick={handlePolygonArea}
+                    enabled={polygonArea}
+                />
             </UI_menu>
 
             <div className={styles['xeokit-container']}>
@@ -118,6 +128,7 @@ export const Project = () => {
                         treeViewRef={treeViewRef}
                         measurement={measurement}
                         angleMeasurement={angleMeasurement}
+                        polygonArea={polygonArea}
                         onPicked={setPicked}
                         newSurvey={newSurveyData}
                     />}
