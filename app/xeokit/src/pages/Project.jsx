@@ -11,6 +11,12 @@ import {ProjectMapLocation} from "../components/ProjectMapLocation.jsx";
 import {ProjectLocationWeather} from "../components/ProjectLocationWeather.jsx";
 import {ElementSurvey} from "../components/ElementSurvey.jsx";
 
+const Tool = {
+    NONE: 'none',
+    MEASUREMENT: 'enabled',
+    ANGLE_MEASUREMENT: 'angle_measurement',
+}
+
 export const Project = () => {
     const {projectId} = useParams();
     const treeViewRef = useRef(null);
@@ -18,9 +24,7 @@ export const Project = () => {
     const {data: surveyData, isFetching: fetchingSurveyData, error: errorSurveyData} = useProjectSurveyQuery(projectId);
     const {data: projectsList} = useProjectListQuery();
 
-    const [measurement, setMeasurement] = useState(false);
-    const [angleMeasurement, setAngleMeasurement] = useState(false);
-    const [polygonArea, setPolygonArea] = useState(false);
+    const [selectedTool, setSelectedTool] = useState(Tool.NONE);
     const [picked, setPicked] = useState(null);
     const [localSurveyData, setLocalSurveyData] = useState([]);
     const [newSurveyData, setNewSurveyData] = useState([]);
@@ -29,16 +33,8 @@ export const Project = () => {
         setLocalSurveyData(surveyData || []);
     }, [surveyData]);
 
-    const handleMeasurement = () => {
-        setMeasurement((prev) => !prev);
-    }
-
-    const handleAngleMeasurement = () => {
-        setAngleMeasurement((prev) => !prev);
-    }
-
-    const handlePolygonArea = () => {
-        setPolygonArea((prev) => !prev);
+    const handleToolToggle = (tool) => {
+        setSelectedTool((prevTool) => (prevTool === tool ? Tool.NONE : tool));
     }
 
     const handleUpdateSurvey = (newSurvey) => {
@@ -94,13 +90,13 @@ export const Project = () => {
             <UI_menu>
                 <MenuTile
                     icon={<Icon.distance_measurement/>}
-                    onClick={handleMeasurement}
-                    enabled={measurement}
+                    onClick={() => handleToolToggle(Tool.MEASUREMENT)}
+                    enabled={selectedTool === Tool.MEASUREMENT}
                 />
                 <MenuTile
                     icon={<Icon.angle_measurement/>}
-                    onClick={handleAngleMeasurement}
-                    enabled={angleMeasurement}
+                    onClick={() => handleToolToggle(Tool.ANGLE_MEASUREMENT)}
+                    enabled={selectedTool === Tool.ANGLE_MEASUREMENT}
                 />
                 <MenuTile
                     icon={<Icon.polygon_area/>}
@@ -126,9 +122,8 @@ export const Project = () => {
                         survey={localSurveyData}
                         project={projectId}
                         treeViewRef={treeViewRef}
-                        measurement={measurement}
-                        angleMeasurement={angleMeasurement}
-                        polygonArea={polygonArea}
+                        measurement={selectedTool === Tool.MEASUREMENT}
+                        angleMeasurement={selectedTool === Tool.ANGLE_MEASUREMENT}
                         onPicked={setPicked}
                         newSurvey={newSurveyData}
                     />}
