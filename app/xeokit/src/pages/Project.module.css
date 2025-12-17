@@ -70,3 +70,56 @@
     max-height: 30vh;
     border-radius: 8px;
 }
+
+.panel {
+    position: absolute;
+    z-index: 100000;
+    top: 60px;
+    right: 10px;
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    width: 350px;
+    max-width: 50vw;
+    max-height: calc(100vh - 100px);
+    padding: 0 10px 10px 10px;
+    border-radius: 8px;
+    background-color: var(--subtle-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    gap: 10px;
+}
+
+.panel-header {
+    position: sticky;
+    z-index: 1;
+    top: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 20px 10px 10px 10px;
+    border-bottom: 2px solid var(--text-color);
+    background: var(--subtle-color);
+}
+
+.panel-header > input {
+    display: none;
+}
+
+.panel-header > label {
+    font-size: 1.2em;
+    font-weight: bolder;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: var(--text-color);
+    background: var(--light-background-color);
+}
+
+.panel-header > input:checked + label {
+    padding-bottom: 0;
+    border-bottom: 0.5rem solid var(--background-color);
+}
+
+.tree-panel-hidden {
+    display: none;
+}

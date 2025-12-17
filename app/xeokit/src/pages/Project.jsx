@@ -30,9 +30,19 @@ export const Project = () => {
     const [localSurveyData, setLocalSurveyData] = useState([]);
     const [newSurveyData, setNewSurveyData] = useState([]);
 
+    const [selectedPanel, setSelectedPanel] = useState("info");
+
     useEffect(() => {
         setLocalSurveyData(surveyData || []);
     }, [surveyData]);
+
+    useEffect(() => {
+        if (picked) {
+            setSelectedPanel("survey");
+        } else {
+            if (selectedPanel === "survey") setSelectedPanel("info");
+        }
+    }, [picked]);
 
     const handleToolToggle = (tool) => {
         setSelectedTool((prevTool) => (prevTool === tool ? Tool.NONE : tool));
@@ -48,6 +58,10 @@ export const Project = () => {
         setNewSurveyData(newSurvey);
     };
 
+    const handlePanelChange = (e) => {
+        setSelectedPanel(e.target.value);
+    }
+
     let projectInfo = {};
     if (projectsList && projectsList.length > 0) {
         const foundProject = projectsList.find(proj => proj.id.toString() === projectId);
@@ -55,6 +69,8 @@ export const Project = () => {
             projectInfo = foundProject;
         }
     }
+
+    console.log(picked);
 
     const projectLocation = JSON.parse(projectInfo.location ?? "[0,0]");
 
@@ -87,6 +103,84 @@ export const Project = () => {
                     </>
                 ) : (<span>Brak informacji o lokalizacji</span>)}
             </div>
+
+            <section className={styles.panel}>
+                <div
+                    className={styles['panel-header']}
+                >
+                    <input
+                        type="radio"
+                        name="panelView"
+                        value="info"
+                        id="panel-info"
+                        checked={selectedPanel === "info"}
+                        onChange={handlePanelChange}
+                    />
+                    <label htmlFor="panel-info">Info</label>
+
+                    <input
+                        type="radio"
+                        name="panelView"
+                        value="tree"
+                        id="panel-tree"
+                        checked={selectedPanel === "tree"}
+                        onChange={handlePanelChange}
+                    />
+                    <label htmlFor="panel-tree">Tree</label>
+
+                    {picked &&
+                        <>
+                            <input
+                                type="radio"
+                                name="panelView"
+                                value="survey"
+                                id="panel-survey"
+                                checked={selectedPanel === "survey"}
+                                onChange={handlePanelChange}
+                            />
+                            <label htmlFor="panel-survey">Survey</label>
+                        </>
+                    }
+                </div>
+
+                <section
+                    className={selectedPanel === "tree" ? styles['tree-panel-active'] : styles['tree-panel-hidden']}>
+                    <div
+                        id="tree_view_container"
+                        ref={treeViewRef}
+                        className={xeokit_styles['tree-view-container']}
+                    ></div>
+                </section>
+
+                {selectedPanel === "info" &&
+                    <section className={styles['project-details']}>
+                        <h4>Informacje o projekcie</h4>
+                        <p><strong>Nazwa:</strong> {projectInfo.name ?? '...'}</p>
+                        <p><strong>GUID:</strong> {projectInfo.guid ?? '...'}</p>
+                        <p><strong>ID:</strong> {projectInfo.id ?? '...'}</p>
+                        <p><strong>Opis:</strong> {projectInfo.description ?? 'Brak opisu'}</p>
+
+                        {picked && <div>
+                            <hr/>
+                            <h4>Informacje o elemencie</h4>
+                            <p><strong>ID elementu:</strong> {picked.id}</p>
+                            <p><strong>Nazwa elementu:</strong> {picked.name ?? 'Brak nazwy'}</p>
+                            <p><strong>Typ elementu:</strong> {picked.type ?? 'Brak typu'}</p>
+                            <p><strong>Ilość PSet:</strong> {picked.psets ? picked.psets.length : 0}</p>
+                        </div>}
+                    </section>
+                }
+
+                {picked && selectedPanel === "survey" &&
+                    <section>
+                        <ElementSurvey
+                            element={picked}
+                            surveyData={localSurveyData}
+                            onUpdateSurvey={handleUpdateSurvey}
+                        />
+                    </section>
+                }
+            </section>
 
             <UI_menu>
                 <MenuTile
