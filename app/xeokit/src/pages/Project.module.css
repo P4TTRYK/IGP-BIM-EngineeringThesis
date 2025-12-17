@@ -8,7 +8,7 @@
 }
 
 .top-bar {
-    z-index: 10;
+    z-index: 100000;
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -54,7 +54,7 @@
 
 .project-info {
     position: absolute;
-    z-index: 10;
+    z-index: 100000;
     top: 60px;
     left: 10px;
     display: flex;

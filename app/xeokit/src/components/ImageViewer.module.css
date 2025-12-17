@@ -1,6 +1,6 @@
 .background {
     position: fixed;
-    z-index: 100000;
+    z-index: 200000;
     top: 0;
     left: 0;
     display: flex;
@@ -20,7 +20,7 @@
 }
 
 .image {
-    z-index: 100001;
+    z-index: 200001;
     display: flex;
     overflow: auto;
     max-width: 90%;
@@ -32,7 +32,7 @@
 
 .close {
     position: fixed;
-    z-index: 100002;
+    z-index: 200002;
     top: 40px;
     right: 40px;
     display: flex;
