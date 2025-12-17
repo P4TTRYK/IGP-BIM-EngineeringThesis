@@ -1,0 +1,394 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "IGP BIM Engineering Thesis API",
+    "version": "1.0.0",
+    "description": "API for managing BIM projects and IFC/XKT files"
+  },
+  "servers": [
+    { "url": "http://localhost:5000" }
+  ],
+  "tags": [
+    { "name": "Projects", "description": "Project-related operations" },
+    { "name": "Files", "description": "IFC/XKT file operations" },
+    { "name": "Survey", "description": "Survey data and images" }
+  ],
+  "paths": {
+    "/projects": {
+      "get": {
+        "summary": "List of projects (get_projects_list)",
+        "description": "Backend function: get_projects_list",
+        "operationId": "getProjectsList",
+        "tags": ["Projects"],
+        "responses": {
+          "200": {
+            "description": "List of projects",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Project" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/project/{project_id}": {
+      "get": {
+        "summary": "Project details (get_project_by_id)",
+        "description": "Backend function: get_project_by_id",
+        "operationId": "getProjectById",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Project" }
+              }
+            }
+          },
+          "404": { "description": "Project not found" }
+        }
+      }
+    },
+    "/upload_ifc": {
+      "post": {
+        "summary": "Upload IFC file and create project (import_ifc)",
+        "description": "Backend function: import_ifc",
+        "operationId": "importIfc",
+        "tags": ["Files"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Project" }
+              }
+            }
+          },
+          "400": { "description": "Invalid file" }
+        }
+      }
+    },
+    "/get_xkt/{filename}": {
+      "get": {
+        "summary": "Download XKT file (convert_ifc2xkt)",
+        "description": "Backend function: convert_ifc2xkt",
+        "operationId": "convertIfc2xkt",
+        "tags": ["Files"],
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "XKT file",
+            "content": {
+              "application/octet-stream": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "404": { "description": "File not found" }
+        }
+      }
+    },
+    "/project/{project_id}/image": {
+      "get": {
+        "summary": "Get project thumbnail (generate_thumbnail)",
+        "description": "Backend function: generate_thumbnail",
+        "operationId": "generateThumbnail",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Thumbnail image",
+            "content": {
+              "image/png": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "404": { "description": "Image not found" }
+        }
+      }
+    },
+    "/project/{project_id}/export": {
+      "get": {
+        "summary": "Download modified IFC file (export_ifc_changes)",
+        "description": "Backend function: export_ifc_changes",
+        "operationId": "exportIfcChanges",
+        "tags": ["Files"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Modified IFC file",
+            "content": {
+              "application/octet-stream": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "404": { "description": "File not found" }
+        }
+      }
+    },
+    "/project/{project_id}/export_photos": {
+      "get": {
+        "summary": "Download project photos as ZIP (export_project_images)",
+        "description": "Backend function: export_project_images",
+        "operationId": "exportProjectImages",
+        "tags": ["Files"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ZIP archive with photos",
+            "content": {
+              "application/zip": {
+                "schema": { "type": "string" }
+              }
+            }
+          },
+          "404": { "description": "No photos found" }
+        }
+      }
+    },
+    "/project/{project_id}/changes": {
+      "get": {
+        "summary": "Get project survey changes (get_project_changes)",
+        "description": "Backend function: get_project_changes",
+        "operationId": "getProjectChanges",
+        "tags": ["Survey"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Survey changes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/SurveyChange" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Save project survey changes (save_project_changes)",
+        "description": "Backend function: save_project_changes",
+        "operationId": "saveProjectChanges",
+        "tags": ["Survey"],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "guid": { "type": "string" },
+                  "metadata": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Saved successfully" },
+          "400": { "description": "Invalid data" }
+        }
+      }
+    },
+    "/project/{project_id}/survey/{guid}/image/{image_id}": {
+      "get": {
+        "summary": "Get survey photo (save_survey_photo)",
+        "description": "Backend function: save_survey_photo",
+        "operationId": "getSurveyPhoto",
+        "tags": ["Survey"],
+        "parameters": [
+          { "name": "project_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "guid", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "image_id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Survey photo",
+            "content": {
+              "image/png": { "schema": { "type": "string" } },
+              "image/jpeg": { "schema": { "type": "string" } },
+              "image/webp": { "schema": { "type": "string" } }
+            }
+          },
+          "404": { "description": "Photo not found" }
+        }
+      }
+    },
+    "/project/{project_id}/survey/{guid}/image/{image_id}/small": {
+      "get": {
+        "summary": "Get survey photo thumbnail (save_survey_photo)",
+        "description": "Backend function: save_survey_photo",
+        "operationId": "getSurveyPhotoThumbnail",
+        "tags": ["Survey"],
+        "parameters": [
+          { "name": "project_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "guid", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "image_id", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Survey photo thumbnail",
+            "content": {
+              "image/png": { "schema": { "type": "string" } },
+              "image/jpeg": { "schema": { "type": "string" } },
+              "image/webp": { "schema": { "type": "string" } }
+            }
+          },
+          "404": { "description": "Thumbnail not found" }
+        }
+      }
+    },
+    "/project/{project_id}/survey/{guid}/image": {
+      "post": {
+        "summary": "Upload survey photo (save_survey_photo)",
+        "description": "Backend function: save_survey_photo",
+        "operationId": "saveSurveyPhoto",
+        "tags": ["Survey"],
+        "parameters": [
+          { "name": "project_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "guid", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Photo uploaded" },
+          "400": { "description": "Invalid file" }
+        }
+      }
+    },
+    "/project/{project_id}/weather": {
+      "get": {
+        "summary": "Get project weather data (get_project_weather)",
+        "description": "Backend function: get_project_weather",
+        "operationId": "getProjectWeather",
+        "tags": ["Projects"],
+        "parameters": [
+          { "name": "project_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weather data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object" }
+              }
+            }
+          },
+          "404": { "description": "Weather data not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Project": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "guid": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" },
+          "location": { "type": "string" },
+          "changes": { "type": "integer" },
+          "photos": { "type": "integer" }
+        },
+        "required": ["id", "guid", "name"]
+      },
+      "SurveyChange": {
+        "type": "object",
+        "properties": {
+          "guid": { "type": "string" },
+          "metadata": { "type": "string" },
+          "photos": { "type": "string" },
+          "updated_at": { "type": "string" }
+        }
+      }
+    }
+  }
+}
