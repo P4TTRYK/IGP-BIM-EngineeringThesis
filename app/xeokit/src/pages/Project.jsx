@@ -15,6 +15,7 @@ const Tool = {
     NONE: 'none',
     MEASUREMENT: 'enabled',
     ANGLE_MEASUREMENT: 'angle_measurement',
+    SECTION_PLANE: 'section_plane',
 }
 
 export const Project = () => {
@@ -99,9 +100,9 @@ export const Project = () => {
                     enabled={selectedTool === Tool.ANGLE_MEASUREMENT}
                 />
                 <MenuTile
-                    icon={<Icon.polygon_area/>}
-                    onClick={handlePolygonArea}
-                    enabled={polygonArea}
+                    icon={<Icon.content_cut/>}
+                    onClick={() => handleToolToggle(Tool.SECTION_PLANE)}
+                    enabled={selectedTool === Tool.SECTION_PLANE}
                 />
             </UI_menu>
 
@@ -124,6 +125,7 @@ export const Project = () => {
                         treeViewRef={treeViewRef}
                         measurement={selectedTool === Tool.MEASUREMENT}
                         angleMeasurement={selectedTool === Tool.ANGLE_MEASUREMENT}
+                        sectionPlane={selectedTool === Tool.SECTION_PLANE}
                         onPicked={setPicked}
                         newSurvey={newSurveyData}
                     />}

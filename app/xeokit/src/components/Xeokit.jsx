@@ -3,6 +3,7 @@ import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugi
 import {DistanceMeasurements} from "./DistanceMeasurements.jsx";
 import {AngleMeasurements} from "./AngleMeasurements.jsx";
 import styles from "./Xeokit.module.css";
+import {SectionPlane} from "./SectionPlane.jsx";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
@@ -15,6 +16,7 @@ export function Xeokit(
         treeViewRef,
         measurement,
         angleMeasurement,
+        sectionPlane,
         onPicked,
         newSurvey
     }) {
@@ -219,6 +221,7 @@ export function Xeokit(
             />
             <DistanceMeasurements viewer={viewerRef.current} enabled={measurement}/>
             <AngleMeasurements viewer={viewerRef.current} enabled={angleMeasurement}/>
+            <SectionPlane viewer={viewerRef.current} enabled={sectionPlane}/>
         </div>
     );
 }
