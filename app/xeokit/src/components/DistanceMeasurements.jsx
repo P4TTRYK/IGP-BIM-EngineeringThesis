@@ -3,7 +3,7 @@
 import {useEffect, useRef} from "react";
 import {DistanceMeasurementsMouseControl, DistanceMeasurementsPlugin} from "@xeokit/xeokit-sdk";
 
-export function DistanceMeasurements({viewer, measurement}) {
+export function DistanceMeasurements({viewer, enabled}) {
     const clearMeasurementRef = useRef(null);
     const enableMeasurementRef = useRef(null);
 
@@ -35,14 +35,14 @@ export function DistanceMeasurements({viewer, measurement}) {
 
     useEffect(() => {
         if (enableMeasurementRef.current && clearMeasurementRef.current) {
-            if (measurement) {
+            if (enabled) {
                 enableMeasurementRef.current.activate();
             } else {
                 clearMeasurementRef.current.clear();
                 enableMeasurementRef.current.deactivate();
             }
         }
-    }, [measurement]);
+    }, [enabled]);
 
     return null;
 }

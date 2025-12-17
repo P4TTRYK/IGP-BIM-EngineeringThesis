@@ -101,6 +101,8 @@ export function Xeokit(
 
         viewer.camera.eye = [-10, 10, 10];
 
+        // const fastNav = new FastNavPlugin(viewer);
+
         const navCube = new NavCubePlugin(viewer, {
             canvasElement: navCubeRef.current,
             cameraFlyDuration: 1,
@@ -134,7 +136,7 @@ export function Xeokit(
         sceneModelRef.current = sceneModel;
 
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/annotations/annotations_clickShowLabels.html
-        const annotations = new AnnotationsPlugin(viewer, {
+        annotationsRef.current = new AnnotationsPlugin(viewer, {
             markerHTML: "<div class='annotation-marker' style='background-color: {{markerBGColor}};'>{{glyph}}</div>",
             values: {
                 markerBGColor: "red",
@@ -142,7 +144,6 @@ export function Xeokit(
             },
             container: markersRef.current
         });
-        annotationsRef.current = annotations;
 
         sceneModel.on("loaded", () => {
             // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
@@ -216,8 +217,8 @@ export function Xeokit(
                 ref={navCubeRef}
                 className={styles['nav-cube-canvas']}
             />
-            <DistanceMeasurements viewer={viewerRef.current} measurement={measurement}/>
-            <AngleMeasurements viewer={viewerRef.current} angleMeasurement={angleMeasurement}/>
+            <DistanceMeasurements viewer={viewerRef.current} enabled={measurement}/>
+            <AngleMeasurements viewer={viewerRef.current} enabled={angleMeasurement}/>
         </div>
     );
 }

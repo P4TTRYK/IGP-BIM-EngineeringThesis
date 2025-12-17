@@ -3,7 +3,7 @@
 import {useEffect, useRef} from "react";
 import {AngleMeasurementsMouseControl, AngleMeasurementsPlugin} from "@xeokit/xeokit-sdk";
 
-export function AngleMeasurements({viewer, angleMeasurement}) {
+export function AngleMeasurements({viewer, enabled}) {
     const clearMeasurementRef = useRef(null);
     const enableMeasurementRef = useRef(null);
 
@@ -14,10 +14,6 @@ export function AngleMeasurements({viewer, angleMeasurement}) {
         clearMeasurementRef.current = angleMeasurementsPlugin;
 
         angleMeasurementsPlugin.on("measurementStart", () => {
-        });
-        angleMeasurementsPlugin.on("measurementEnd", () => {
-        });
-        angleMeasurementsPlugin.on("measurementCancel", () => {
         });
 
         const angleMeasurementsMouseControl = new AngleMeasurementsMouseControl(angleMeasurementsPlugin, {
@@ -35,14 +31,14 @@ export function AngleMeasurements({viewer, angleMeasurement}) {
 
     useEffect(() => {
         if (enableMeasurementRef.current && clearMeasurementRef.current) {
-            if (angleMeasurement) {
+            if (enabled) {
                 enableMeasurementRef.current.activate();
             } else {
                 clearMeasurementRef.current.clear();
                 enableMeasurementRef.current.deactivate();
             }
         }
-    }, [angleMeasurement]);
+    }, [enabled]);
 
     return null;
 }
