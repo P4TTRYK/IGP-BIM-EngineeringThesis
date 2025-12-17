@@ -110,7 +110,7 @@ export const UploadSurveyPhoto = ({project, survey, onUploadPhoto}) => {
             <button
                 onClick={handleUpload}
                 disabled={!file || uploadProgress > 0}
-                className={ifc_styles['upload-button']}
+                className={`${ifc_styles['upload-button']} ${styles.button}`}
             >
                 Prześlij{!file ? ` (najpierw dodaj plik)` : ''}
             </button>

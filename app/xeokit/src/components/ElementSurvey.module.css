@@ -1,15 +1,6 @@
 .container {
-    position: absolute;
-    z-index: 1000;
-    top: 60px;
-    right: 10px;
-    overflow-y: auto;
     box-sizing: border-box;
-    width: 350px;
-    max-height: calc(100% - 70px);
-    padding: 10px;
-    border-radius: 8px;
-    background-color: rgba(0, 0, 0, 0.8);
+    padding: 5px;
 }
 
 .container h4 {
@@ -32,7 +23,7 @@ textarea.uszkodzenia {
     color: var(--text-color);
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    background-color: var(--background-color);
+    background-color: var(--light-background-color);
 }
 
 .selector input[type=radio] {
@@ -49,7 +40,7 @@ textarea.uszkodzenia {
     margin: 0 auto;
     text-align: center;
     border-radius: 10px;
-    background-color: var(--background-color);
+    background-color: var(--light-background-color);
 }
 
 .selector label {
@@ -60,7 +51,6 @@ textarea.uszkodzenia {
 
 .selector label {
     position: relative;
-    z-index: 2;
     transition: all .2s ease-out;
 }
 
@@ -68,7 +58,7 @@ textarea.uszkodzenia {
     font-weight: bolder;
     color: var(--light-background-color);
     border-radius: 8px;
-    background-color: var(--subtle-color);
+    background-color: var(--background-color);
 }
 
 hr {
@@ -92,7 +82,7 @@ button[type="submit"] {
     color: var(--text-color);
     border: none;
     border-radius: 8px;
-    background-color: var(--subtle-color);
+    background-color: var(--background-color);
 }
 
 button[type="submit"]:hover {
