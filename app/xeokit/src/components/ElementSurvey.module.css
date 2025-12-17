@@ -1,5 +1,6 @@
 .container {
     position: absolute;
+    z-index: 1000;
     top: 60px;
     right: 10px;
     overflow-y: auto;
@@ -31,7 +32,7 @@ textarea.uszkodzenia {
     color: var(--text-color);
     border: 2px solid var(--border-color);
     border-radius: 8px;
-    background-color: var(--light-background-color);
+    background-color: var(--background-color);
 }
 
 .selector input[type=radio] {
@@ -48,7 +49,7 @@ textarea.uszkodzenia {
     margin: 0 auto;
     text-align: center;
     border-radius: 10px;
-    background-color: var(--light-background-color);
+    background-color: var(--background-color);
 }
 
 .selector label {
@@ -65,7 +66,7 @@ textarea.uszkodzenia {
 
 .selector input[type="radio"]:checked + label {
     font-weight: bolder;
-    color: var(--background-color);
+    color: var(--light-background-color);
     border-radius: 8px;
     background-color: var(--subtle-color);
 }
@@ -74,7 +75,7 @@ hr {
     width: 100%;
     margin: 10px 0;
     border: none;
-    border-top: 2px solid var(--subtle-color);
+    border-top: 2px solid var(--text-color);
 }
 
 button[type="submit"] {
@@ -88,7 +89,7 @@ button[type="submit"] {
     cursor: pointer;
     transition: all .2s ease-out;
     transform: translateX(-50%);
-    color: var(--background-color);
+    color: var(--text-color);
     border: none;
     border-radius: 8px;
     background-color: var(--subtle-color);

@@ -1,3 +1,13 @@
+.container {
+    position: absolute;
+    z-index: 1000000;
+    top: 60px;
+    left: 270px;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
 .toggle-button {
     display: flex;
     flex-direction: column;
@@ -38,17 +48,13 @@
 
 .panel {
     position: absolute;
-    top: 60px;
-    right: 10px;
-    overflow: auto;
-    width: 300px;
-    min-height: 140px;
-    max-height: calc(100% - 80px);
-    transition: visibility 0s, opacity 0.3s ease-out;
+    top: 55px;
+    left: 2px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease-out;
     opacity: 1;
-    border: 1px rgba(255, 255, 255, 0.3);
-    border-radius: 10px;
-    background: var(--light-background-color);
+    gap: 10px;
 }
 
 .panel.hidden {

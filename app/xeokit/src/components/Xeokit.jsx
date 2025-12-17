@@ -1,16 +1,28 @@
 import {useEffect, useRef, useState} from "react";
 import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
+import {DistanceMeasurements} from "./DistanceMeasurements.jsx";
+import {AngleMeasurements} from "./AngleMeasurements.jsx";
 import styles from "./Xeokit.module.css";
-import {ElementSurvey} from "./ElementSurvey.jsx";
+import {SectionPlane} from "./SectionPlane.jsx";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project, treeViewRef}) {
+export function Xeokit(
+    {
+        model,
+        survey,
+        project,
+        treeViewRef,
+        measurement,
+        angleMeasurement,
+        sectionPlane,
+        onPicked,
+        newSurvey
+    }) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
-    const [picked, setPicked] = useState(null);
     const [surveyData, setSurveyData] = useState(survey || []);
 
     const viewerRef = useRef(null);
@@ -23,10 +35,10 @@ export function Xeokit({model, survey, project, treeViewRef}) {
 
     const handlePick = (metaObject) => {
         if (!metaObject) {
-            setPicked(null);
+            onPicked(null);
             return;
         }
-        setPicked({
+        onPicked({
             project,
             id: metaObject.id,
             type: metaObject.type,
@@ -34,6 +46,10 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             psets: metaObject.propertySets
         });
     };
+
+    useEffect(() => {
+        createAnnotationForSurvey(newSurvey);
+    }, [newSurvey]);
 
     const createAnnotationForSurvey = (surveyItem) => {
         if (!sceneModelRef.current || !viewerRef.current || !annotationsRef.current) return;
@@ -62,16 +78,6 @@ export function Xeokit({model, survey, project, treeViewRef}) {
         });
     };
 
-    const handleUpdateSurvey = (newSurvey) => {
-        setSurveyData((prev) => {
-            const next = prev.filter((s) => s.guid !== newSurvey.guid);
-            next.push(newSurvey);
-            return next;
-        });
-
-        createAnnotationForSurvey(newSurvey);
-    };
-
     // https://github.com/xeokit/xeokit-sdk/pull/1347
     // https://xeokit.github.io/xeokit-sdk/examples/cad/#OBJ_SportsCar_ExplodeModel
     function getCenter(aabb) {
@@ -96,6 +102,8 @@ export function Xeokit({model, survey, project, treeViewRef}) {
         viewerRef.current = viewer;
 
         viewer.camera.eye = [-10, 10, 10];
+
+        // const fastNav = new FastNavPlugin(viewer);
 
         const navCube = new NavCubePlugin(viewer, {
             canvasElement: navCubeRef.current,
@@ -130,7 +138,7 @@ export function Xeokit({model, survey, project, treeViewRef}) {
         sceneModelRef.current = sceneModel;
 
         // https://github.com/xeokit/xeokit-sdk/blob/master/examples/annotations/annotations_clickShowLabels.html
-        const annotations = new AnnotationsPlugin(viewer, {
+        annotationsRef.current = new AnnotationsPlugin(viewer, {
             markerHTML: "<div class='annotation-marker' style='background-color: {{markerBGColor}};'>{{glyph}}</div>",
             values: {
                 markerBGColor: "red",
@@ -138,11 +146,10 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             },
             container: markersRef.current
         });
-        annotationsRef.current = annotations;
 
         sceneModel.on("loaded", () => {
             // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
-            viewer.cameraFlight.flyTo(sceneModel);
+            viewer.cameraFlight.jumpTo(sceneModel);
 
             surveyData.forEach((change) => {
                 createAnnotationForSurvey(change);
@@ -192,7 +199,7 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             viewerRef.current = null;
             sceneModelRef.current = null;
             annotationsRef.current = null;
-            setPicked(null);
+            onPicked(null);
         };
     }, [model, project]);
 
@@ -202,10 +209,6 @@ export function Xeokit({model, survey, project, treeViewRef}) {
                 ref={markersRef}
                 id="annotationMarkersContainer"
             ></div>
-            <div className={styles['element-info']}>
-                {picked ? <>{picked.name} ({picked.type}) / {picked.id}</> : "..."}
-            </div>
-            {picked && <ElementSurvey element={picked} surveyData={surveyData} onUpdateSurvey={handleUpdateSurvey}/>}
             <canvas
                 id="xeokit_canvas"
                 ref={canvasRef}
@@ -214,8 +217,11 @@ export function Xeokit({model, survey, project, treeViewRef}) {
             <canvas
                 id="nav_cube_canvas"
                 ref={navCubeRef}
-                className={`${styles['nav-cube-canvas']} ${picked ? styles['picked-element'] : ''}`}
+                className={styles['nav-cube-canvas']}
             />
+            <DistanceMeasurements viewer={viewerRef.current} enabled={measurement}/>
+            <AngleMeasurements viewer={viewerRef.current} enabled={angleMeasurement}/>
+            <SectionPlane viewer={viewerRef.current} enabled={sectionPlane}/>
         </div>
     );
 }

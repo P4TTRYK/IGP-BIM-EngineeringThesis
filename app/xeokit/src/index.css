@@ -1,12 +1,12 @@
 @import "components/Xeokit.css";
 
 :root {
-    --background-color: #180a1e;
-    --text-color: rgba(255, 255, 255, 0.87);
+    --background-color: #00693c;
+    --text-color: #e1e1e1;
     --link-color: #40aafd;
-    --subtle-color: #a664c8;
-    --light-background-color: #2e1d37;
-    --error-color: #ff5858;
+    --subtle-color: #a71930;
+    --light-background-color: #1e1e1e;
+    --error-color: #d66073;
 }
 
 body {

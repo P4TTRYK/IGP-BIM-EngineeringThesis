@@ -1,0 +1,29 @@
+.tile {
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-out;
+    text-align: center;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+    background: var(--light-background-color);
+    gap: 8px;
+}
+
+.tile > svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--text-color);
+}
+
+.enabled {
+    background: var(--subtle-color);
+}

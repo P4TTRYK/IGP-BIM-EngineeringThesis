@@ -10,8 +10,6 @@ export const ProjectLocationWeather = ({project}) => {
         weather: [{icon: weatherIcon = null, description: conditions = null} = {}] = [],
     } = data || {};
 
-    console.log(temperature, locationName, weatherIcon, conditions);
-
     return (
         <div
             className={styles['location-weather']}
