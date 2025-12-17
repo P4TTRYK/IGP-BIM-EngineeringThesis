@@ -1,12 +1,9 @@
 // Angle Measurement plugin
 //https://github.com/xeokit/xeokit-sdk/blob/master/examples/measurement/angle_createWithMouse_snapping.html
-import { useEffect, useRef } from "react";
-import {
-    AngleMeasurementsMouseControl,
-    AngleMeasurementsPlugin
-} from "@xeokit/xeokit-sdk";
+import {useEffect, useRef} from "react";
+import {AngleMeasurementsMouseControl, AngleMeasurementsPlugin} from "@xeokit/xeokit-sdk";
 
-export function AngleMeasurements({ viewer, angleMeasurement }) {
+export function AngleMeasurements({viewer, angleMeasurement}) {
     const clearMeasurementRef = useRef(null);
     const enableMeasurementRef = useRef(null);
 
@@ -16,9 +13,12 @@ export function AngleMeasurements({ viewer, angleMeasurement }) {
         const angleMeasurementsPlugin = new AngleMeasurementsPlugin(viewer);
         clearMeasurementRef.current = angleMeasurementsPlugin;
 
-        angleMeasurementsPlugin.on("measurementStart", () => {});
-        angleMeasurementsPlugin.on("measurementEnd", () => {});
-        angleMeasurementsPlugin.on("measurementCancel", () => {});
+        angleMeasurementsPlugin.on("measurementStart", () => {
+        });
+        angleMeasurementsPlugin.on("measurementEnd", () => {
+        });
+        angleMeasurementsPlugin.on("measurementCancel", () => {
+        });
 
         const angleMeasurementsMouseControl = new AngleMeasurementsMouseControl(angleMeasurementsPlugin, {
             pointerLens: null,

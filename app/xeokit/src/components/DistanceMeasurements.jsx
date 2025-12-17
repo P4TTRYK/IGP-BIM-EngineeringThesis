@@ -1,12 +1,9 @@
 // Measurement plugin
 // https://github.com/xeokit/xeokit-sdk/blob/master/examples/measurement/distance_createWithMouse_snapping.html
-import { useEffect, useRef } from "react";
-import {
-    DistanceMeasurementsMouseControl,
-    DistanceMeasurementsPlugin
-} from "@xeokit/xeokit-sdk";
+import {useEffect, useRef} from "react";
+import {DistanceMeasurementsMouseControl, DistanceMeasurementsPlugin} from "@xeokit/xeokit-sdk";
 
-export function DistanceMeasurements({ viewer, measurement }) {
+export function DistanceMeasurements({viewer, measurement}) {
     const clearMeasurementRef = useRef(null);
     const enableMeasurementRef = useRef(null);
 
@@ -16,9 +13,12 @@ export function DistanceMeasurements({ viewer, measurement }) {
         const distanceMeasurementsPlugin = new DistanceMeasurementsPlugin(viewer);
         clearMeasurementRef.current = distanceMeasurementsPlugin;
 
-        distanceMeasurementsPlugin.on("measurementStart", () => {});
-        distanceMeasurementsPlugin.on("measurementEnd", () => {});
-        distanceMeasurementsPlugin.on("measurementCancel", () => {});
+        distanceMeasurementsPlugin.on("measurementStart", () => {
+        });
+        distanceMeasurementsPlugin.on("measurementEnd", () => {
+        });
+        distanceMeasurementsPlugin.on("measurementCancel", () => {
+        });
 
         const distanceMeasurementsMouseControl = new DistanceMeasurementsMouseControl(distanceMeasurementsPlugin, {
             pointerLens: null,

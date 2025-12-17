@@ -1,20 +1,23 @@
 import {useEffect, useRef, useState} from "react";
-import {
-    AnnotationsPlugin,
-    NavCubePlugin,
-    TreeViewPlugin,
-    Viewer,
-    XKTLoaderPlugin
-} from "@xeokit/xeokit-sdk";
-import { DistanceMeasurements } from "./DistanceMeasurements";
-import { AngleMeasurements } from "./AngleMeasurements";
-//import { PolygonArea } from "./PolygonArea";
+import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
+import {DistanceMeasurements} from "./DistanceMeasurements.jsx";
+import {AngleMeasurements} from "./AngleMeasurements.jsx";
 import styles from "./Xeokit.module.css";
 
 // https://xeokit.io/sdk-v2/api-doc/xeokit-sdk/
 // https://xeokit.github.io/xeokit-sdk/docs/class/src/plugins/NavCubePlugin/NavCubePlugin.js~NavCubePlugin.html
 
-export function Xeokit({model, survey, project, treeViewRef, measurement, angleMeasurement, onPicked, newSurvey}) {
+export function Xeokit(
+    {
+        model,
+        survey,
+        project,
+        treeViewRef,
+        measurement,
+        angleMeasurement,
+        onPicked,
+        newSurvey
+    }) {
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
@@ -213,9 +216,8 @@ export function Xeokit({model, survey, project, treeViewRef, measurement, angleM
                 ref={navCubeRef}
                 className={styles['nav-cube-canvas']}
             />
-            <DistanceMeasurements viewer={viewerRef.current} measurement={measurement} />
-            <AngleMeasurements viewer={viewerRef.current} angleMeasurement={angleMeasurement} />
-            {/*<PolygonArea viewer={viewerRef.current} polygonArea={polygonArea} /> */}
+            <DistanceMeasurements viewer={viewerRef.current} measurement={measurement}/>
+            <AngleMeasurements viewer={viewerRef.current} angleMeasurement={angleMeasurement}/>
         </div>
     );
 }
