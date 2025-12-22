@@ -20,7 +20,7 @@ export default function UI_menu({children}) {
                 <span></span>
                 <span></span>
             </button>
-            <div className={`${styles.panel} ${!isOpen && styles.hidden}`}>
+            <div className={`${styles.panel} ${!isOpen ? styles.hidden : ''}`}>
                 {children}
             </div>
         </div>

@@ -70,8 +70,6 @@ export const Project = () => {
         }
     }
 
-    console.log(picked);
-
     const projectLocation = JSON.parse(projectInfo.location ?? "[0,0]");
 
     return (
@@ -81,13 +79,6 @@ export const Project = () => {
                     <button className={styles['back-button']}><Icon.left_arrow/> Lista projektów</button>
                 </Link>
                 <h3 title={projectInfo.guid}>Projekt: {projectInfo.name ?? '...'}</h3>
-                <UI_menu>
-                    <div
-                        id="tree_view_container"
-                        ref={treeViewRef}
-                        className={xeokit_styles['tree-view-container']}
-                    ></div>
-                </UI_menu>
             </nav>
 
             <div className={styles['project-info']}>
