@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {AnnotationsPlugin, NavCubePlugin, TreeViewPlugin, Viewer, XKTLoaderPlugin} from "@xeokit/xeokit-sdk";
 import {DistanceMeasurements} from "./DistanceMeasurements.jsx";
 import {AngleMeasurements} from "./AngleMeasurements.jsx";
@@ -23,14 +23,21 @@ export function Xeokit(
     const canvasRef = useRef(null);
     const navCubeRef = useRef(null);
     const markersRef = useRef(null);
-    const [surveyData, setSurveyData] = useState(survey || []);
-
+    const surveyRef = useRef(survey || []);
     const viewerRef = useRef(null);
     const sceneModelRef = useRef(null);
     const annotationsRef = useRef(null);
+    const modelLoadedRef = useRef(false);
 
+    // Add annotations after model is loaded
     useEffect(() => {
-        setSurveyData(survey || []);
+        surveyRef.current = survey || [];
+
+        if (modelLoadedRef.current && annotationsRef.current) {
+            surveyRef.current.forEach((change) => {
+                createAnnotationForSurvey(change);
+            });
+        }
     }, [survey]);
 
     const handlePick = (metaObject) => {
@@ -54,7 +61,7 @@ export function Xeokit(
     const createAnnotationForSurvey = (surveyItem) => {
         if (!sceneModelRef.current || !viewerRef.current || !annotationsRef.current) return;
 
-        const guid = surveyItem.guid ?? null;
+        const guid = surveyItem?.guid ?? null;
         if (!guid || !sceneModelRef.current.objects[guid]) return;
 
         const annotationId = `a_${guid}`;
@@ -92,6 +99,8 @@ export function Xeokit(
         if (!model || !canvasRef.current || !navCubeRef.current || !treeViewRef.current) {
             return;
         }
+
+        modelLoadedRef.current = false;
 
         const viewer = new Viewer({
             canvasElement: canvasRef.current,
@@ -150,8 +159,9 @@ export function Xeokit(
         sceneModel.on("loaded", () => {
             // https://github.com/xeokit/xeokit-sdk/blob/master/examples/navigation/camera_fitToModel.html
             viewer.cameraFlight.jumpTo(sceneModel);
+            modelLoadedRef.current = true;
 
-            surveyData.forEach((change) => {
+            surveyRef.current.forEach((change) => {
                 createAnnotationForSurvey(change);
             });
         });
@@ -192,6 +202,7 @@ export function Xeokit(
         viewer.cameraControl.on("picked", handlePicked);
 
         return () => {
+            modelLoadedRef.current = false;
             viewer.scene.clear();
             navCube.destroy();
             treeView.destroy();
