@@ -1,33 +1,49 @@
-# BIM Web Viewer | IGP Engineering Thesis
+# BIM Scope
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Technology](https://img.shields.io/badge/BIM-IFC%20%7C%20XKT-orange)
-![Framework](https://img.shields.io/badge/Built%20with-JavaScript%20%2F%20xeokit-green)
+[//]: # (![License]&#40;https://img.shields.io/badge/license-MIT-blue.svg&#41;)
 
-Profesjonalna przeglądarka modeli BIM online, stworzona w ramach pracy inżynierskiej. Aplikacja umożliwia wysokowydajną wizualizację wielkogabarytowych modeli budynków bezpośrednio w przeglądarce przy użyciu formatów IFC oraz zoptymalizowanego XKT.
+[//]: # ()
+[//]: # (![Technology]&#40;https://img.shields.io/badge/BIM-IFC%20%7C%20XKT-orange&#41;)
 
-## 🚀 Kluczowe Funkcje
-- **High-Performance Rendering:** Obsługa formatu `.xkt` pozwalająca na płynne wyświetlanie modeli o bardzo dużej liczbie obiektów.
-- **Wsparcie IFC:** Możliwość ładowania i parsowania plików w standardzie Industry Foundation Classes.
-- **Hierarchia Obiektów:** Pełne drzewo struktury modelu (Project -> Site -> Building -> Storey -> Element).
-- **Zarządzanie Widocznością:** Ukrywanie/izolowanie elementów, kontrola przezroczystości oraz przekroje techniczne (clipping planes).
-- **Inspektor Właściwości:** Dostęp do metadanych BIM przypisanych do poszczególnych komponentów modelu.
+[//]: # ()
+[//]: # (![Framework]&#40;https://img.shields.io/badge/Built%20with-JavaScript%20%2F%20xeokit-green&#41;)
 
-## 🛠 Stack Techniczny
-- **Frontend:** HTML5, CSS3, JavaScript (ES6+)
-- **Silnik Wizualizacji:** [xeokit SDK](https://xeokit.io/) / [Three.js]
-- **Obsługa Formatów:** BIM Data conversion (IFC -> XKT)
-- **Deployment:** [np. GitHub Pages / Vercel / Docker]
+Wkleić wstęp
 
-## 📂 Struktura Projektu
-- `/src` – Kod źródłowy aplikacji (logika przeglądarki, obsługa zdarzeń).
-- `/models` – Przykładowe modele w formacie `.xkt` i `.ifc`.
-- `/dist` – Skompilowana wersja produkcyjna.
-- `/docs` – Dokumentacja techniczna i opis teoretyczny związany z pracą inżynierską.
+## Features
 
-## ⚙️ Instalacja i Uruchomienie
-Aby uruchomić projekt lokalnie, wykonaj poniższe kroki:
+skriny
 
-1. Sklonuj repozytorium:
-   ```bash
-   git clone [https://github.com/P4TTRYK/IGP-BIM-EngineeringThesis.git](https://github.com/P4TTRYK/IGP-BIM-EngineeringThesis.git)
+## Used stack
+
+- Backend: Python, Flask, uv
+- Frontend: React, xeokit-sdk
+
+## External services
+
+> [!Note]
+> [openweathermap](https://openweathermap.org/) - api key required to show location weather info, add your own key in
+`/app/api/database/get_project_weather.py`
+
+## Prerequisites
+
+- uv
+- nodejs
+
+## Usage
+
+### clone `git clone` or download .zip
+
+### Start backend api server
+
+- go to /app/api
+- install pyproject
+- `uv sync`
+- `uv run python -m flask --app main run`
+
+### Start
+
+- go to /app/xeokit
+- `npm install`
+- `npm run dev`
+- enjoy
