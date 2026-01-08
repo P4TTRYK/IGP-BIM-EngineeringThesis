@@ -1,13 +1,5 @@
 # BIM Scope
 
-[//]: # (![License]&#40;https://img.shields.io/badge/license-MIT-blue.svg&#41;)
-
-[//]: # ()
-[//]: # (![Technology]&#40;https://img.shields.io/badge/BIM-IFC%20%7C%20XKT-orange&#41;)
-
-[//]: # ()
-[//]: # (![Framework]&#40;https://img.shields.io/badge/Built%20with-JavaScript%20%2F%20xeokit-green&#41;)
-
 Wkleić wstęp
 
 ## Features
