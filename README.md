@@ -22,7 +22,7 @@ Wkleić wstęp
 ## Used stack
 
 - Backend: Python, Flask, uv
-- Frontend: React, xeokit-sdk
+- Frontend: Node, React, xeokit-sdk
 
 ## External services
 
@@ -33,26 +33,26 @@ Wkleić wstęp
 ## Prerequisites
 
 - uv
-- nodejs
+- node
 
 ## Usage
 
-### clone `git clone` or download .zip
+clone by `git clone` or download repo as .zip
 
 ### Start backend api server
 
 - go to /app/api
-- install pyproject
-- `uv sync`
-- `uv run python -m flask --app main run`
+- run `uv sync` to install dependencies
+- run `uv run python -m flask --app main run` to start api server
 
-### Start
+### Start frontend
 
 - go to /app/xeokit
-- `npm install`
-- `npm run dev`
-- enjoy
+- run `npm install` to install dependencies
+- run `npm run dev` to start frontend server
+
+enjoy! 🎉
 
 ## Known issues
 
-On some macOS devices generating thumbnails may fail, so no thumbanil sorry :(
+On some devices generating thumbnails may fail, so no thumbnail sorry :(
