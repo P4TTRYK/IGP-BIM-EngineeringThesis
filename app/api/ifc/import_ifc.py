@@ -74,7 +74,10 @@ def import_ifc_project(db_cursor, file):
 
     # create model thumbnail
     thumbnail_path = os.path.join("./uploads", f"{project_id}.png")
-    generate_thumbnail(new_file_path, thumbnail_path)
+    try:
+        generate_thumbnail(new_file_path, thumbnail_path)
+    except Exception:
+        print(f"Failed to generate thumbnail for project")
 
     # return new project info
     return {
