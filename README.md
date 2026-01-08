@@ -4,7 +4,20 @@ Wkleić wstęp
 
 ## Features
 
-skriny
+- Import IFC files
+- Add survey information to model
+- Add images of elements
+- Measure elements lengths
+- Measure angle between elements
+- Cut model with section planes to see inside
+- Show model location
+- Show weather info of project location
+- Export changed model to new IFC file
+- Export images from model with specific name `project_guid`\_`element_guid`\_`timestamp`\.`photot_extension`
+
+<img src="screenshots/screen_main.jpg" alt="drawing" width="400"/>
+<img src="screenshots/screen_cut_plane.jpg" alt="drawing" width="400"/>
+<img src="screenshots/screen_measure.jpg" alt="drawing" width="400"/>
 
 ## Used stack
 
@@ -39,3 +52,7 @@ skriny
 - `npm install`
 - `npm run dev`
 - enjoy
+
+## Known issues
+
+On some macOS devices generating thumbnails may fail, so no thumbanil sorry :(
