@@ -1,11 +1,13 @@
 # BIM Scope
 
-Wkleić wstęp
+This project is part of an engineering thesis. It is designed as a model browser based on open standards for managing and analyzing BIM (Building Information Modeling) data for construction projects. The platform enables visualize, track, and document IFC model, changes, and survey data.
+
+The backend is built with Python (Flask) and uses SQLite for data storage. The frontend leverages React, Vite, and xeokit-sdk for fast and interactive BIM visualization. The system also utilizes OpenAPI for documentation and standardizes data exchange using IFC/XKT formats. All IFC files are converted to XKT format for more efficient visualization in model browser.  Weather data integration requires an API key for OpenWeatherMap, which should be configured in `/app/api/database/get_project_weather.py`.
 
 ## Features
 
-- Import IFC files
-- Add survey information to model
+- Import and visualization of IFC files 
+- Add survey information to model elements
 - Add images of elements
 - Measure elements lengths
 - Measure angle between elements
@@ -14,6 +16,7 @@ Wkleić wstęp
 - Show weather info of project location
 - Export changed model to new IFC file
 - Export images from model with specific name `project_guid`\_`element_guid`\_`timestamp`\.`photot_extension`
+- Storing and managing project data, changes, and images in a SQLite database
 
 <img src="screenshots/screen_main.jpg" alt="drawing" width="400"/>
 <img src="screenshots/screen_cut_plane.jpg" alt="drawing" width="400"/>
