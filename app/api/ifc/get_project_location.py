@@ -14,7 +14,7 @@ def get_project_location(model):
         seconds = dms[2] if len(dms) > 2 else 0
         millionths = dms[3] if len(dms) > 3 else 0
 
-        decimal = abs(degrees) + minutes / 60.0 + seconds / 3600.0 + millionths / 3600.0e6
+        decimal = abs(degrees) + abs(minutes) / 60.0 + abs(seconds) / 3600.0 + abs(millionths) / 3600.0e6
         if degrees < 0:
             decimal = -decimal
         return decimal
