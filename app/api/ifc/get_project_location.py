@@ -9,7 +9,11 @@ def get_project_location(model):
     # from docs:
     # b := c[1] + c[2]/60. + c[3]/3600. + c[4]/3600.e6; -- -50.975864
     def dms_to_decimal(dms):
-        degrees, minutes, seconds, millionths = dms
+        degrees = dms[0] if len(dms) > 0 else 0
+        minutes = dms[1] if len(dms) > 1 else 0
+        seconds = dms[2] if len(dms) > 2 else 0
+        millionths = dms[3] if len(dms) > 3 else 0
+
         decimal = abs(degrees) + minutes / 60.0 + seconds / 3600.0 + millionths / 3600.0e6
         if degrees < 0:
             decimal = -decimal
