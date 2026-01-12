@@ -4,3 +4,6 @@
 [submodule "undergraduate-thesis"]
 	path = undergraduate-thesis
 	url = https://github.com/fyrtax/undergraduate-thesis
+[submodule "that-open-company"]
+	path = that-open-company
+	url = https://github.com/P4TTRYK/That-open-company
